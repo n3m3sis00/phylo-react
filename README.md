@@ -1,0 +1,4 @@
+```bash
+yarn
+yarn start
+```
