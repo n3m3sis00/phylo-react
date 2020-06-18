@@ -4,6 +4,16 @@ import { parseNewick } from "./Utils";
 
 import AppContext from "../container/Store";
 
+export function CountLeafNodes(tree) {
+    if (tree.branchset) {
+        return tree.branchset
+            .map((child) => {
+                return CountLeafNodes(child);
+            })
+            .reduce((a, b) => a + b);
+    } else return 1;
+}
+
 export default function Tree(props) {
     const context = useContext(AppContext);
 
@@ -13,8 +23,10 @@ export default function Tree(props) {
     useEffect(() => {
         console.log("parsing data");
         var data = parseNewick(treeData);
+        var leafNodes = CountLeafNodes(data);
+        console.log("here", leafNodes, data);
 
-        const cluster = d3.cluster().size([500, 500]);
+        const cluster = d3.cluster().size([leafNodes * 20, 500]);
 
         const root = d3.hierarchy(data, (d) => d.branchset);
 
