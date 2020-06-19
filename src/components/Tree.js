@@ -29,10 +29,10 @@ export default function Tree(props) {
 
         cluster(root);
 
-        d3.selectAll("svg > *").remove();
+        d3.selectAll("#tree > *").remove();
 
         const svg = d3
-            .select("svg")
+            .select("#tree")
             .attr("viewBox", [-10, -10, 1000, leafNodes * 20 + 10])
             .attr("font-family", "sans-serif")
             .attr("font-size", 10);
@@ -98,7 +98,7 @@ export default function Tree(props) {
 
     return (
         <div>
-            <svg> </svg>
+            <svg id='tree'> </svg>
         </div>
     );
 }
