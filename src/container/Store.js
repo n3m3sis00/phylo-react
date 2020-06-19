@@ -1,15 +1,24 @@
 import React, { Component } from 'react'
+import {smallTree} from '../resources/life.js'
 
 const AppContext = React.createContext()
 
 class AppProvider extends Component {
   state = {
     isOpen: false,
-    node:null
+    node:null,
+    treeData:smallTree,
+    isOpenData:false,
   }
   setOpen = todo => {
     this.setState({
         isOpen : todo
+    })
+  }
+
+  setOpenData = todo => {
+    this.setState({
+        isOpenData : todo
     })
   }
 
@@ -19,18 +28,28 @@ class AppProvider extends Component {
     })
   }
 
+  setTreeData = data => {
+      this.setState({
+        treeData : data
+    })
+  }
+
   render() {
     const { children } = this.props
-    const { isOpen, node } = this.state
-    const { setOpen, setNode } = this
+    const { isOpen, node, treeData, isOpenData } = this.state
+    const { setOpen, setNode, setTreeData, setOpenData } = this
 
     return (
       <AppContext.Provider
             value={{
                 isOpen,
                 node,
+                treeData,
+                isOpenData,
                 setOpen,
                 setNode,
+                setTreeData,
+                setOpenData
             }}
         >
         {children}

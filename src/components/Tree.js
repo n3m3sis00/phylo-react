@@ -16,15 +16,12 @@ export function CountLeafNodes(tree) {
 
 export default function Tree(props) {
     const context = useContext(AppContext);
-
-    const { setOpen, setNode } = context;
-    const { treeData } = props;
+    const { treeData, setOpen, setNode } = context;
 
     useEffect(() => {
         console.log("parsing data");
         var data = parseNewick(treeData);
         var leafNodes = CountLeafNodes(data);
-        console.log("here", leafNodes, data);
 
         const cluster = d3.cluster().size([leafNodes * 20, 500]);
 
@@ -36,7 +33,7 @@ export default function Tree(props) {
 
         const svg = d3
             .select("svg")
-            .attr("viewBox", [-10, -10, 954, 3810])
+            .attr("viewBox", [-10, -10, 1000, leafNodes * 20 + 10])
             .attr("font-family", "sans-serif")
             .attr("font-size", 10);
 

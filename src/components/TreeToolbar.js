@@ -8,10 +8,11 @@ import AppContext from '../container/Store'
 
 export default function TreeToolbar() {
 
-    const { setOpen } = useContext(AppContext)
+    const { setOpen, setOpenData } = useContext(AppContext)
 
     return <AppBar position="static">
         <Toolbar variant="dense" color="inherit">
+            <Button onClick={() => setOpenData(true)} > Data </Button>
             <Button onClick={() => setOpen(true)} > Toolbar </Button>
         </Toolbar>
     </AppBar> 
