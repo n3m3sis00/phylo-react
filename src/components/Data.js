@@ -6,22 +6,45 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import CloudDoneIcon from '@material-ui/icons/CloudDone';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
 import AppContext from "../container/Store";
+import TabularView from "./TabularView";
 import {makeTextFileLineIterator} from './Utils'
 
 const useStyles = makeStyles((theme) => ({
   side_div: {
     width: 'auto',
-    height: 300,
+    height: 350,
     padding:10
   },
   paste_data_div: {
-      paddingTop:30
+      padding:50
   },
-  input: {
+  inputup: {
     display: 'none',
   },
+  connectbar: {
+    display: 'flex',
+    alignItems: 'center',
+    width: 'auto',
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
+  }
 }));
 
 function a11yProps(index) {
@@ -46,7 +69,7 @@ function Data(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [api, setapi] = React.useState('http://localhost:8000');
-  const [files, setFiles] = React.useState();
+  const [files, setFiles] = React.useState(null);
   const [ufiles, setuFiles] = React.useState(null);
   const [ufilesNames, setuFilesNames] = React.useState(null);
 
@@ -55,26 +78,26 @@ function Data(props) {
   };
 
   const getFiles = async () => {
-    console.log(api)
-    var files = await run(api + "/files.txt")
-    console.log(files)
+    var files_ = await run(api + "/files.txt")
+    var files = []
+    var i = 0;
+    for(i ; i < files_.length; i++){
+        files.push(files_[i])
+    }
     setFiles(files)
   };
 
-  const getTree = async (file) => {
-    var data = await run(api + "/" + file)
+  const getTree = async (idx) => {
+    var data = await run(api + "/" + files[idx])
     setTreeData(data[0])
   };
 
   const handleUpload = async (e) => {
     if(e.target.files){
-        // console.log(e.target.files);
-        // console.log(e.target.files.length)
         var filenames = []
-        for(var i =  0 ; i < e.target.files.length; i++){
-            filenames.push({
-                0 : e.target.files[i].name
-            })
+        var i = 0;
+        for(i ; i < e.target.files.length; i++){
+            filenames.push(e.target.files[i].name)
         }
         setuFilesNames(filenames)
         setuFiles(e.target.files)
@@ -135,28 +158,25 @@ function Data(props) {
                 aria-labelledby={`simple-tab-2`}
                 className = {classes.paste_data_div}
             >
-                <TextField
-                    id="outlined-basic"
-                    label="API Addr"
-                    variant="outlined"
-                    value={api}
-                    onChange={(event) => {
-                        setapi(event.target.value);
-                    }}
-                />
-                <Button variant="contained" color="primary"
-                    onClick={getFiles}
-                >
-                    Connect
-                </Button>
+                <Paper component="form" className={classes.connectbar}>
+                    <InputBase
+                        className={classes.input}
+                        id="outlined-basic"
+                        label="API Addr"
+                        variant="outlined"
+                        value={api}
+                        onChange={(event) => {
+                            setapi(event.target.value);
+                        }}
+                    />
+                    <Divider className={classes.divider} orientation="vertical" />
+                    <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={getFiles}>
+                        <CloudDoneIcon />
+                    </IconButton>
+                </Paper>
+
                 <div>
-                { files ? files.map(a => <div key={uuidv4()}>
-                                            <Button variant="contained" color="primary"
-                                                onClick={() => getTree(a)}
-                                            >
-                                                {a}
-                                            </Button>
-                                        </div>) : null}
+                    { files ? <TabularView data={files} func={getTree}/> : null}
                 </div>
             </div>
 
@@ -168,25 +188,19 @@ function Data(props) {
             >
                 <input
                     accept="txt/*"
-                    className={classes.input}
+                    className={classes.inputup}
                     id="contained-button-file"
                     multiple
                     type="file"
                     onChange={handleUpload}
                 />
                 <label htmlFor="contained-button-file">
-                    <Button variant="contained" color="primary" component="span">
+                    <Button variant="contained" fullWidth color="primary" component="span">
                         Upload
                     </Button>
                 </label>
-                <div>
-                { ufilesNames ? ufilesNames.map((x, idx) => <div key={uuidv4()}>
-                                            <Button variant="contained" color="primary"
-                                                onClick={() => readUploaded(idx)}
-                                            >
-                                                {x[0] + idx}
-                                            </Button>
-                                        </div>) : null}
+                <div className={classes.showcase}>
+                    { ufilesNames ? <TabularView data={ufilesNames} func={readUploaded}/> : null}
                 </div>
             </div>
 
