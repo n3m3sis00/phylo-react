@@ -83,7 +83,6 @@ function Data(props) {
 
   const readUploaded = async (idx) => {
     var reader = new FileReader();
-    console.log(ufiles[0])
     reader.onload = function(){
           var text = reader.result
           setTreeData(text)
@@ -183,7 +182,7 @@ function Data(props) {
                 <div>
                 { ufilesNames ? ufilesNames.map((x, idx) => <div key={uuidv4()}>
                                             <Button variant="contained" color="primary"
-                                                onClick={readUploaded(idx)}
+                                                onClick={() => readUploaded(idx)}
                                             >
                                                 {x[0] + idx}
                                             </Button>
