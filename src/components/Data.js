@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import AppContext from "../container/Store";
+import {makeTextFileLineIterator} from './Utils'
 
 const useStyles = makeStyles((theme) => ({
   side_div: {
@@ -17,7 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paste_data_div: {
       paddingTop:30
-  }
+  },
+  input: {
+    display: 'none',
+  },
 }));
 
 function a11yProps(index) {
@@ -25,38 +29,6 @@ function a11yProps(index) {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
-}
-
-async function* makeTextFileLineIterator(fileURL) {
-  const utf8Decoder = new TextDecoder('utf-8');
-  const response = await fetch(fileURL);
-  const reader = response.body.getReader();
-  let { value: chunk, done: readerDone } = await reader.read();
-  chunk = chunk ? utf8Decoder.decode(chunk) : '';
-
-  const re = /\n|\r|\r\n/gm;
-  let startIndex = 0;
-  let result;
-
-  for (;;) {
-    let result = re.exec(chunk);
-    if (!result) {
-      if (readerDone) {
-        break;
-      }
-      let remainder = chunk.substr(startIndex);
-      ({ value: chunk, done: readerDone } = await reader.read());
-      chunk = remainder + (chunk ? utf8Decoder.decode(chunk) : '');
-      startIndex = re.lastIndex = 0;
-      continue;
-    }
-    yield chunk.substring(startIndex, result.index);
-    startIndex = re.lastIndex;
-  }
-  if (startIndex < chunk.length) {
-    // last line didn't end in a newline char
-    yield chunk.substr(startIndex);
-  }
 }
 
 async function run(fileURL) {
@@ -73,8 +45,10 @@ function Data(props) {
   const { treeData, isOpenData, setOpenData, setTreeData } = context;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [api, setapi] = React.useState();
+  const [api, setapi] = React.useState('http://localhost:8000');
   const [files, setFiles] = React.useState();
+  const [ufiles, setuFiles] = React.useState(null);
+  const [ufilesNames, setuFilesNames] = React.useState(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -82,15 +56,41 @@ function Data(props) {
 
   const getFiles = async () => {
     console.log(api)
-    var files = await run("https://cors-anywhere.herokuapp.com/" + api + "/files.txt")
+    var files = await run(api + "/files.txt")
     console.log(files)
     setFiles(files)
   };
 
   const getTree = async (file) => {
-    var data = await run("https://cors-anywhere.herokuapp.com/" + api + "/" + file)
+    var data = await run(api + "/" + file)
     setTreeData(data[0])
   };
+
+  const handleUpload = async (e) => {
+    if(e.target.files){
+        // console.log(e.target.files);
+        // console.log(e.target.files.length)
+        var filenames = []
+        for(var i =  0 ; i < e.target.files.length; i++){
+            filenames.push({
+                0 : e.target.files[i].name
+            })
+        }
+        setuFilesNames(filenames)
+        setuFiles(e.target.files)
+    }
+  };
+
+  const readUploaded = async (idx) => {
+    var reader = new FileReader();
+    console.log(ufiles[0])
+    reader.onload = function(){
+          var text = reader.result
+          setTreeData(text)
+        };
+    reader.readAsText(ufiles[idx])
+  };
+
 
   return (
     <React.Fragment key={"bottom"}>
@@ -161,6 +161,35 @@ function Data(props) {
                 </div>
             </div>
 
+            <div role="tabpanel"
+                hidden={value !== 1}
+                id={`simple-tabpanel-1`}
+                aria-labelledby={`simple-tab-1`}
+                className = {classes.paste_data_div}
+            >
+                <input
+                    accept="txt/*"
+                    className={classes.input}
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    onChange={handleUpload}
+                />
+                <label htmlFor="contained-button-file">
+                    <Button variant="contained" color="primary" component="span">
+                        Upload
+                    </Button>
+                </label>
+                <div>
+                { ufilesNames ? ufilesNames.map((x, idx) => <div key={uuidv4()}>
+                                            <Button variant="contained" color="primary"
+                                                onClick={readUploaded(idx)}
+                                            >
+                                                {x[0] + idx}
+                                            </Button>
+                                        </div>) : null}
+                </div>
+            </div>
 
         </div>
       </Drawer>
