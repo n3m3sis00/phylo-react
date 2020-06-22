@@ -73,13 +73,13 @@ const useToolbarStyles = makeStyles((theme) => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
+        color: theme.palette.secondary.main,
+        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+      }
       : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark,
+      },
   title: {
     flex: '1 1 100%',
   },
@@ -112,11 +112,11 @@ const EnhancedTableToolbar = (props) => {
       ) : null}
       {numSelected > 0 ? (
         <Tooltip title="View">
-            {numSelected === 1 ? (
-                <IconButton aria-label="view" onClick={() => func(selected[0])}>
-                    <AccountTreeIcon />
-                </IconButton>
-            ) : <Alert severity="warning">Multiple Panes Rendering is not Implemeted Yet</Alert> }
+          {numSelected === 1 ? (
+            <IconButton aria-label="view" onClick={() => func(selected[0])}>
+              <AccountTreeIcon />
+            </IconButton>
+          ) : <Alert severity="warning">Multiple Panes Rendering is not Implemeted Yet</Alert>}
         </Tooltip>
       ) : null}
     </Toolbar>
@@ -141,12 +141,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TabularView(props) {
-  const {data, func} = props
+  const { data, func } = props
   const classes = useStyles();
   const [selected, setSelected] = React.useState([]);
   const [dense, setDense] = React.useState(false);
-
+  console.log("incominig", data)
   const rows = data.map((x, idx) => createData(idx, x))
+  console.log("parsed", rows)
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.name);
@@ -186,7 +187,7 @@ export default function TabularView(props) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} selected={selected} func={func}/>
+        <EnhancedTableToolbar numSelected={selected.length} selected={selected} func={func} />
         <TableContainer>
           <Table
             className={classes.table}
@@ -202,31 +203,31 @@ export default function TabularView(props) {
             />
             <TableBody>
               {rows.map((row, index) => {
-                  const isItemSelected = isSelected(row.idx);
-                  const labelId = `enhanced-table-checkbox-${row.idx}`;
+                const isItemSelected = isSelected(row.idx);
+                const labelId = `enhanced-table-checkbox-${row.idx}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.idx)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.idx}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.idx)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.idx}
+                    selected={isItemSelected}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={isItemSelected}
+                        inputProps={{ 'aria-labelledby': labelId }}
+                      />
+                    </TableCell>
+                    <TableCell component="th" id={labelId} scope="row" padding="none">
+                      {row.name}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
