@@ -1,33 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import Button from '@material-ui/core/Button';
-import Alert from '@material-ui/lab/Alert';
+import React from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
+import { lighten, makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import Checkbox from "@material-ui/core/Checkbox";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+import DeleteIcon from "@material-ui/icons/Delete";
+import AccountTreeIcon from "@material-ui/icons/AccountTree";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import Button from "@material-ui/core/Button";
+import Alert from "@material-ui/lab/Alert";
 
 function createData(idx, name) {
   return { idx, name };
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Filename' },
+  { id: "name", numeric: false, disablePadding: true, label: "Filename" },
 ];
 
 function EnhancedTableHead(props) {
@@ -41,14 +41,14 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all files' }}
+            inputProps={{ "aria-label": "select all files" }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "default"}
           >
             {headCell.label}
           </TableCell>
@@ -71,17 +71,17 @@ const useToolbarStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
   },
   highlight:
-    theme.palette.type === 'light'
+    theme.palette.type === "light"
       ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
       : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
   title: {
-    flex: '1 1 100%',
+    flex: "1 1 100%",
   },
 }));
 
@@ -89,7 +89,7 @@ const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { func, selected, numSelected } = props;
 
-  console.log(selected)
+  console.log(selected);
 
   return (
     <Toolbar
@@ -98,7 +98,12 @@ const EnhancedTableToolbar = (props) => {
       })}
     >
       {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+        <Typography
+          className={classes.title}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
           {numSelected} selected
         </Typography>
       ) : null}
@@ -116,7 +121,11 @@ const EnhancedTableToolbar = (props) => {
             <IconButton aria-label="view" onClick={() => func(selected[0])}>
               <AccountTreeIcon />
             </IconButton>
-          ) : <Alert severity="warning">Multiple Panes Rendering is not Implemeted Yet</Alert>}
+          ) : (
+            <Alert severity="warning">
+              Multiple Panes Rendering is not Implemeted Yet
+            </Alert>
+          )}
         </Tooltip>
       ) : null}
     </Toolbar>
@@ -129,25 +138,25 @@ EnhancedTableToolbar.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   paper: {
-    width: '100%',
+    width: "100%",
     marginBottom: theme.spacing(2),
   },
   table: {
     minWidth: 750,
-  }
+  },
 }));
 
 export default function TabularView(props) {
-  const { data, func } = props
+  const { data, func } = props;
   const classes = useStyles();
   const [selected, setSelected] = React.useState([]);
   const [dense, setDense] = React.useState(false);
-  console.log("incominig", data)
-  const rows = data.map((x, idx) => createData(idx, x))
-  console.log("parsed", rows)
+  console.log("incominig", data);
+  const rows = data.map((x, idx) => createData(idx, x));
+  console.log("parsed", rows);
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.name);
@@ -170,13 +179,12 @@ export default function TabularView(props) {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
     setSelected(newSelected);
   };
-
 
   const handleChangeDense = (event) => {
     setDense(event.target.checked);
@@ -187,12 +195,16 @@ export default function TabularView(props) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} selected={selected} func={func} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          selected={selected}
+          func={func}
+        />
         <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={dense ? "small" : "medium"}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -219,10 +231,17 @@ export default function TabularView(props) {
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
                       />
                     </TableCell>
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
                       {row.name}
                     </TableCell>
                   </TableRow>

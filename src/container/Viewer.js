@@ -8,35 +8,33 @@ import Data from "../components/Data";
 import TreeToolbar from "../components/TreeToolbar";
 import { AppProvider } from "./Store";
 
-
-
 const useStyles = makeStyles((therme) => ({
-    tree_div: {
-        border: 0,
-        borderRadius: 3,
-        boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
-        width: "calc(100vw - 32px)",
-    },
+  tree_div: {
+    border: 0,
+    borderRadius: 3,
+    boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
+    width: "calc(100vw - 32px)",
+  },
 }));
 
 function ViewerScreen(props) {
-    const ref = useRef();
-    const classes = useStyles();
+  const ref = useRef();
+  const classes = useStyles();
 
-    return (
-        <AppProvider>
-            <Grid container spacing={2}>
-                <TreeToolbar />
-                <Grid key={1} item>
-                    <div className={classes.tree_div}>
-                        <Tree />
-                    </div>
-                </Grid>
-            </Grid>
-            <Sidebar />
-            <Data />
-        </AppProvider>
-    );
+  return (
+    <AppProvider>
+      <Grid container spacing={2}>
+        <TreeToolbar />
+        <Grid key={1} item>
+          <div className={classes.tree_div}>
+            <Tree />
+          </div>
+        </Grid>
+      </Grid>
+      <Sidebar />
+      <Data />
+    </AppProvider>
+  );
 }
 
 export default ViewerScreen;
