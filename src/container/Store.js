@@ -1,36 +1,36 @@
 import React, { Component } from 'react'
-import {smallTree} from '../resources/life.js'
+import { smallTree } from '../resources/life.js'
 
 const AppContext = React.createContext()
 
 class AppProvider extends Component {
   state = {
     isOpen: false,
-    node:null,
-    treeData:smallTree,
-    isOpenData:false,
+    node: null,
+    treeData: smallTree,
+    isOpenData: false,
   }
   setOpen = todo => {
     this.setState({
-        isOpen : todo
+      isOpen: todo,
     })
   }
 
   setOpenData = todo => {
     this.setState({
-        isOpenData : todo
+      isOpenData: todo,
     })
   }
 
   setNode = d => {
     this.setState({
-        node : d
+      node: d,
     })
   }
 
   setTreeData = data => {
-      this.setState({
-        treeData : data
+    this.setState({
+      treeData: data,
     })
   }
 
@@ -41,17 +41,17 @@ class AppProvider extends Component {
 
     return (
       <AppContext.Provider
-            value={{
-                isOpen,
-                node,
-                treeData,
-                isOpenData,
-                setOpen,
-                setNode,
-                setTreeData,
-                setOpenData
-            }}
-        >
+        value={{
+          isOpen,
+          node,
+          treeData,
+          isOpenData,
+          setOpen,
+          setNode,
+          setTreeData,
+          setOpenData,
+        }}
+      >
         {children}
       </AppContext.Provider>
     )

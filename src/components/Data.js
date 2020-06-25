@@ -1,30 +1,30 @@
-import React, { useContext } from "react";
-import { v4 as uuidv4 } from 'uuid';
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
-import AppContext from "../container/Store";
-import TabularView from "./TabularView";
+import React, { useContext } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import { makeStyles } from '@material-ui/core/styles'
+import Drawer from '@material-ui/core/Drawer'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import SearchIcon from '@material-ui/icons/Search'
+import CloudDoneIcon from '@material-ui/icons/CloudDone'
+import Paper from '@material-ui/core/Paper'
+import InputBase from '@material-ui/core/InputBase'
+import Divider from '@material-ui/core/Divider'
+import AppContext from '../container/Store'
+import TabularView from './TabularView'
 import { makeTextFileLineIterator } from './Utils'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   side_div: {
     width: 'auto',
     height: 350,
-    padding: 10
+    padding: 10,
   },
   paste_data_div: {
-    padding: 50
+    padding: 50,
   },
   inputup: {
     display: 'none',
@@ -44,81 +44,83 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     height: 28,
     margin: 4,
-  }
-}));
+  },
+}))
 
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
-  };
+  }
 }
 
 async function run(fileURL) {
-  var files = [];
+  var files = []
   for await (let line of makeTextFileLineIterator(fileURL)) {
     files.push(line)
   }
   return files
 }
 
-
 function Data(props) {
-  const context = useContext(AppContext);
-  const { treeData, isOpenData, setOpenData, setTreeData } = context;
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-  const [api, setapi] = React.useState('http://localhost:8000');
-  const [files, setFiles] = React.useState(null);
-  const [ufiles, setuFiles] = React.useState(null);
-  const [ufilesNames, setuFilesNames] = React.useState(null);
+  const context = useContext(AppContext)
+  const { treeData, isOpenData, setOpenData, setTreeData } = context
+  const classes = useStyles()
+  const [value, setValue] = React.useState(0)
+  const [api, setapi] = React.useState('http://localhost:8000')
+  const [files, setFiles] = React.useState(null)
+  const [ufiles, setuFiles] = React.useState(null)
+  const [ufilesNames, setuFilesNames] = React.useState(null)
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   const getFiles = async () => {
-    var files_ = await run(api + "/files.txt")
+    var files_ = await run(api + '/files.txt')
     var files = []
-    var i = 0;
+    var i = 0
     for (i; i < files_.length; i++) {
-      if (files_[i] !== "") {
+      if (files_[i] !== '') {
         files.push(files_[i])
       }
     }
     setFiles(files)
-  };
+  }
 
-  const getTree = async (idx) => {
-    var data = await run(api + "/" + files[idx])
+  const getTree = async idx => {
+    var data = await run(api + '/' + files[idx])
     setTreeData(data[0])
-  };
+  }
 
-  const handleUpload = async (e) => {
+  const handleUpload = async e => {
     if (e.target.files) {
       var filenames = []
-      var i = 0;
+      var i = 0
       for (i; i < e.target.files.length; i++) {
         filenames.push(e.target.files[i].name)
       }
       setuFilesNames(filenames)
       setuFiles(e.target.files)
     }
-  };
+  }
 
-  const readUploaded = async (idx) => {
-    var reader = new FileReader();
+  const readUploaded = async idx => {
+    var reader = new FileReader()
     reader.onload = function () {
       var text = reader.result
       setTreeData(text)
-    };
+    }
     reader.readAsText(ufiles[idx])
-  };
-
+  }
 
   return (
-    <React.Fragment key={"bottom"}>
-      <Drawer anchor={"bottom"} open={isOpenData} onClose={() => setOpenData(false)}>
+    <React.Fragment key={'bottom'}>
+      <Drawer
+        anchor={'bottom'}
+        open={isOpenData}
+        onClose={() => setOpenData(false)}
+      >
         <div className={classes.side_div}>
           <Tabs
             value={value}
@@ -147,8 +149,8 @@ function Data(props) {
               fullWidth
               variant="outlined"
               value={treeData}
-              onChange={(event) => {
-                setTreeData(event.target.value);
+              onChange={event => {
+                setTreeData(event.target.value)
               }}
             />
           </div>
@@ -167,12 +169,17 @@ function Data(props) {
                 label="API Addr"
                 variant="outlined"
                 value={api}
-                onChange={(event) => {
-                  setapi(event.target.value);
+                onChange={event => {
+                  setapi(event.target.value)
                 }}
               />
               <Divider className={classes.divider} orientation="vertical" />
-              <IconButton color="primary" className={classes.iconButton} aria-label="directions" onClick={getFiles}>
+              <IconButton
+                color="primary"
+                className={classes.iconButton}
+                aria-label="directions"
+                onClick={getFiles}
+              >
                 <CloudDoneIcon />
               </IconButton>
             </Paper>
@@ -182,7 +189,8 @@ function Data(props) {
             </div>
           </div>
 
-          <div role="tabpanel"
+          <div
+            role="tabpanel"
             hidden={value !== 1}
             id={`simple-tabpanel-1`}
             aria-labelledby={`simple-tab-1`}
@@ -197,20 +205,25 @@ function Data(props) {
               onChange={handleUpload}
             />
             <label htmlFor="contained-button-file">
-              <Button variant="contained" fullWidth color="primary" component="span">
+              <Button
+                variant="contained"
+                fullWidth
+                color="primary"
+                component="span"
+              >
                 Upload
-                    </Button>
+              </Button>
             </label>
             <div className={classes.showcase}>
-              {ufilesNames ? <TabularView data={ufilesNames} func={readUploaded} /> : null}
+              {ufilesNames ? (
+                <TabularView data={ufilesNames} func={readUploaded} />
+              ) : null}
             </div>
           </div>
-
         </div>
       </Drawer>
     </React.Fragment>
-  );
+  )
 }
 
-export default Data;
-
+export default Data
