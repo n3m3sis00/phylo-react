@@ -1,25 +1,25 @@
-import React, { useRef, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import React, { useRef, useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 
-import Tree from "../components/Tree";
-import Sidebar from "../components/Sidebar";
-import Data from "../components/Data";
-import TreeToolbar from "../components/TreeToolbar";
-import { AppProvider } from "./Store";
+import Tree from '../components/Tree'
+import Sidebar from '../components/Sidebar'
+import Data from '../components/Data'
+import TreeToolbar from '../components/TreeToolbar'
+import { AppProvider } from './Store'
 
-const useStyles = makeStyles((therme) => ({
+const useStyles = makeStyles(therme => ({
   tree_div: {
     border: 0,
     borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
-    width: "calc(100vw - 32px)",
+    boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
+    width: 'calc(100vw - 32px)',
   },
-}));
+}))
 
 function ViewerScreen(props) {
-  const ref = useRef();
-  const classes = useStyles();
+  const ref = useRef()
+  const classes = useStyles()
 
   return (
     <AppProvider>
@@ -34,7 +34,7 @@ function ViewerScreen(props) {
       <Sidebar />
       <Data />
     </AppProvider>
-  );
+  )
 }
 
-export default ViewerScreen;
+export default ViewerScreen

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { smallTree } from "../resources/life.js";
+import React, { Component } from 'react'
+import { smallTree } from '../resources/life.js'
 
-const AppContext = React.createContext();
+const AppContext = React.createContext()
 
 class AppProvider extends Component {
   state = {
@@ -9,35 +9,35 @@ class AppProvider extends Component {
     node: null,
     treeData: smallTree,
     isOpenData: false,
-  };
-  setOpen = (todo) => {
+  }
+  setOpen = todo => {
     this.setState({
       isOpen: todo,
-    });
-  };
+    })
+  }
 
-  setOpenData = (todo) => {
+  setOpenData = todo => {
     this.setState({
       isOpenData: todo,
-    });
-  };
+    })
+  }
 
-  setNode = (d) => {
+  setNode = d => {
     this.setState({
       node: d,
-    });
-  };
+    })
+  }
 
-  setTreeData = (data) => {
+  setTreeData = data => {
     this.setState({
       treeData: data,
-    });
-  };
+    })
+  }
 
   render() {
-    const { children } = this.props;
-    const { isOpen, node, treeData, isOpenData } = this.state;
-    const { setOpen, setNode, setTreeData, setOpenData } = this;
+    const { children } = this.props
+    const { isOpen, node, treeData, isOpenData } = this.state
+    const { setOpen, setNode, setTreeData, setOpenData } = this
 
     return (
       <AppContext.Provider
@@ -54,10 +54,10 @@ class AppProvider extends Component {
       >
         {children}
       </AppContext.Provider>
-    );
+    )
   }
 }
 
-export default AppContext;
+export default AppContext
 
-export { AppProvider };
+export { AppProvider }

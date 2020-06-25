@@ -1,37 +1,37 @@
-import React from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
-import { lighten, makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import DeleteIcon from "@material-ui/icons/Delete";
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import Button from "@material-ui/core/Button";
-import Alert from "@material-ui/lab/Alert";
+import React from 'react'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import { lighten, makeStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
+import Checkbox from '@material-ui/core/Checkbox'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
+import DeleteIcon from '@material-ui/icons/Delete'
+import AccountTreeIcon from '@material-ui/icons/AccountTree'
+import FilterListIcon from '@material-ui/icons/FilterList'
+import Button from '@material-ui/core/Button'
+import Alert from '@material-ui/lab/Alert'
 
 function createData(idx, name) {
-  return { idx, name };
+  return { idx, name }
 }
 
 const headCells = [
-  { id: "name", numeric: false, disablePadding: true, label: "Filename" },
-];
+  { id: 'name', numeric: false, disablePadding: true, label: 'Filename' },
+]
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, numSelected, rowCount } = props;
+  const { classes, onSelectAllClick, numSelected, rowCount } = props
 
   return (
     <TableHead>
@@ -41,21 +41,21 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "select all files" }}
+            inputProps={{ 'aria-label': 'select all files' }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "default"}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'default'}
           >
             {headCell.label}
           </TableCell>
         ))}
       </TableRow>
     </TableHead>
-  );
+  )
 }
 
 EnhancedTableHead.propTypes = {
@@ -63,15 +63,15 @@ EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
   rowCount: PropTypes.number.isRequired,
-};
+}
 
-const useToolbarStyles = makeStyles((theme) => ({
+const useToolbarStyles = makeStyles(theme => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
   },
   highlight:
-    theme.palette.type === "light"
+    theme.palette.type === 'light'
       ? {
           color: theme.palette.secondary.main,
           backgroundColor: lighten(theme.palette.secondary.light, 0.85),
@@ -81,15 +81,15 @@ const useToolbarStyles = makeStyles((theme) => ({
           backgroundColor: theme.palette.secondary.dark,
         },
   title: {
-    flex: "1 1 100%",
+    flex: '1 1 100%',
   },
-}));
+}))
 
-const EnhancedTableToolbar = (props) => {
-  const classes = useToolbarStyles();
-  const { func, selected, numSelected } = props;
+const EnhancedTableToolbar = props => {
+  const classes = useToolbarStyles()
+  const { func, selected, numSelected } = props
 
-  console.log(selected);
+  console.log(selected)
 
   return (
     <Toolbar
@@ -129,68 +129,68 @@ const EnhancedTableToolbar = (props) => {
         </Tooltip>
       ) : null}
     </Toolbar>
-  );
-};
+  )
+}
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-};
+}
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
+    width: '100%',
   },
   paper: {
-    width: "100%",
+    width: '100%',
     marginBottom: theme.spacing(2),
   },
   table: {
     minWidth: 750,
   },
-}));
+}))
 
 export default function TabularView(props) {
-  const { data, func } = props;
-  const classes = useStyles();
-  const [selected, setSelected] = React.useState([]);
-  const [dense, setDense] = React.useState(false);
-  console.log("incominig", data);
-  const rows = data.map((x, idx) => createData(idx, x));
-  console.log("parsed", rows);
-  const handleSelectAllClick = (event) => {
+  const { data, func } = props
+  const classes = useStyles()
+  const [selected, setSelected] = React.useState([])
+  const [dense, setDense] = React.useState(false)
+  console.log('incominig', data)
+  const rows = data.map((x, idx) => createData(idx, x))
+  console.log('parsed', rows)
+  const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
+      const newSelecteds = rows.map(n => n.name)
+      setSelected(newSelecteds)
+      return
     }
-    setSelected([]);
-  };
+    setSelected([])
+  }
 
   const handleClick = (event, idx) => {
-    const selectedIndex = selected.indexOf(idx);
-    let newSelected = [];
+    const selectedIndex = selected.indexOf(idx)
+    let newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, idx);
+      newSelected = newSelected.concat(selected, idx)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = newSelected.concat(selected.slice(1))
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(selected.slice(0, -1))
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+        selected.slice(selectedIndex + 1),
+      )
     }
 
-    setSelected(newSelected);
-  };
+    setSelected(newSelected)
+  }
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+  const handleChangeDense = event => {
+    setDense(event.target.checked)
+  }
 
-  const isSelected = (idx) => selected.indexOf(idx) !== -1;
+  const isSelected = idx => selected.indexOf(idx) !== -1
 
   return (
     <div className={classes.root}>
@@ -204,7 +204,7 @@ export default function TabularView(props) {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
+            size={dense ? 'small' : 'medium'}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -215,13 +215,13 @@ export default function TabularView(props) {
             />
             <TableBody>
               {rows.map((row, index) => {
-                const isItemSelected = isSelected(row.idx);
-                const labelId = `enhanced-table-checkbox-${row.idx}`;
+                const isItemSelected = isSelected(row.idx)
+                const labelId = `enhanced-table-checkbox-${row.idx}`
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.idx)}
+                    onClick={event => handleClick(event, row.idx)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -232,7 +232,7 @@ export default function TabularView(props) {
                       <Checkbox
                         checked={isItemSelected}
                         inputProps={{
-                          "aria-labelledby": labelId,
+                          'aria-labelledby': labelId,
                         }}
                       />
                     </TableCell>
@@ -245,7 +245,7 @@ export default function TabularView(props) {
                       {row.name}
                     </TableCell>
                   </TableRow>
-                );
+                )
               })}
             </TableBody>
           </Table>
@@ -256,5 +256,5 @@ export default function TabularView(props) {
         label="Dense padding"
       />
     </div>
-  );
+  )
 }
