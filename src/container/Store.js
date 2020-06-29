@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { smallTree } from '../resources/life.js'
+import { treeData } from '../resources/life.js'
 
 const AppContext = React.createContext()
 
@@ -7,7 +7,7 @@ class AppProvider extends Component {
   state = {
     isOpen: false,
     node: null,
-    treeData: smallTree,
+    treeData: treeData,
     isOpenData: false,
   }
   setOpen = todo => {

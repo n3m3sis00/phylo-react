@@ -28,8 +28,10 @@ export default function Tree(props) {
     const root = d3.hierarchy(data, d => d.branchset)
 
     cluster(root)
+    setRadius(root, (root.data.length = 0), (1800 / leafNodes) * 20)
 
     d3.selectAll('#tree > *').remove()
+    d3.select('#show-length input').on('change', changed)
 
     const svg = d3
       .select('#tree')
@@ -47,27 +49,34 @@ export default function Tree(props) {
             }
             `)
 
-    svg
+    var link = svg
       .append('g')
       .attr('fill', 'none')
       .attr('stroke', '#000')
       .selectAll('path')
       .data(root.links())
       .join('path')
-      .attr(
-        'd',
-        d =>
-          'M' +
-          d.source.y +
-          ' ' +
-          d.source.x +
-          'V' +
-          d.target.x +
-          'H' +
-          d.target.y,
-      )
+      .attr('d', linkConstant)
 
-    svg
+    var linkExtension = svg
+      .append('g')
+      .attr('fill', 'none')
+      .attr('stroke', '#000')
+      .attr('stroke-opacity', '0.2')
+      .selectAll('path')
+      .data(
+        root.links().filter(function (d) {
+          return !d.target.children
+        }),
+      )
+      .enter()
+      .append('path')
+      .each(function (d) {
+        d.target.linkExtensionNode = this
+      })
+      .attr('d', linkExtensionConstant)
+
+    var circle = svg
       .append('g')
       .selectAll('circle')
       .data(root.descendants())
@@ -92,15 +101,55 @@ export default function Tree(props) {
         setNode(d)
       })
 
+    function linkVariable(d) {
+      // console.log(d)
+      return linkStep(d.source.x, d.source.radius, d.target.x, d.target.radius)
+    }
+
+    function linkConstant(d) {
+      return linkStep(d.source.x, d.source.y, d.target.x, d.target.y)
+    }
+    function linkExtensionVariable(d) {
+      return linkStep(d.target.x, d.target.radius, d.target.x, d.target.y)
+    }
+
+    function linkExtensionConstant(d) {
+      return linkStep(d.target.x, d.target.y, d.target.x, d.target.y)
+    }
+
+    function linkStep(sx, sy, tx, ty) {
+      return 'M' + sy + ' ' + sx + 'V' + tx + 'H' + ty
+    }
+
+    function setRadius(d, y0, k) {
+      d.radius = (y0 += d.data.length) * k
+      if (d.children)
+        d.children.forEach(function (d) {
+          setRadius(d, y0, k)
+        })
+    }
+
     function mouseovered(active) {
       return function (d) {
         d3.select(this).classed('label--active', active)
       }
     }
+
+    function changed() {
+      var t = d3.transition().duration(750)
+      linkExtension
+        .transition(t)
+        .attr('d', this.checked ? linkExtensionVariable : linkExtensionConstant)
+      circle.transition(t).style('opacity', this.checked ? 0 : 1)
+      link.transition(t).attr('d', this.checked ? linkVariable : linkConstant)
+    }
   }, [setNode, setOpen, treeData])
 
   return (
     <div>
+      <label id="show-length">
+        <input type="checkbox" /> Show branch length
+      </label>
       <svg id="tree"> </svg>
     </div>
   )
