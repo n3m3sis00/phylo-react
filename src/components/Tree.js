@@ -4,7 +4,7 @@ import { parseNewick } from './Utils'
 
 import AppContext from '../container/Store'
 
-function CountLeafNodes(tree) {
+export function CountLeafNodes(tree) {
   if (tree.branchset) {
     return tree.branchset
       .map(child => {
