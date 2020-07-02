@@ -22,13 +22,19 @@ export default function Tree(props) {
     console.log('parsing data')
     var data = parseNewick(treeData)
     var leafNodes = CountLeafNodes(data)
+    var width = 500
+    const cluster = d3.cluster().size([leafNodes * 20, width])
 
-    const cluster = d3.cluster().size([leafNodes * 20, 500])
-
-    const root = d3.hierarchy(data, d => d.branchset)
+    const root = d3
+      .hierarchy(data, d => d.branchset)
+      .sum(d => (d.branchset ? 0 : 1))
+      .sort(
+        (a, b) =>
+          a.value - b.value || d3.ascending(a.data.length, b.data.length),
+      )
 
     cluster(root)
-    setRadius(root, (root.data.length = 0), (1800 / leafNodes) * 20)
+    setRadius(root, (root.data.length = 0), width / maxLength(root))
 
     d3.selectAll('#tree > *').remove()
     d3.select('#show-length input').on('change', changed)
@@ -100,6 +106,10 @@ export default function Tree(props) {
         setOpen(true)
         setNode(d)
       })
+
+    function maxLength(d) {
+      return d.data.length + (d.children ? d3.max(d.children, maxLength) : 0)
+    }
 
     function linkVariable(d) {
       // console.log(d)
