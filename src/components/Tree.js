@@ -4,7 +4,7 @@ import { parseNewick } from './Utils'
 
 import AppContext from '../container/Store'
 
-export function CountLeafNodes(tree) {
+function CountLeafNodes(tree) {
   if (tree.branchset) {
     return tree.branchset
       .map(child => {
@@ -14,16 +14,30 @@ export function CountLeafNodes(tree) {
   } else return 1
 }
 
+function maxLength(d) {
+  return d.data.length + (d.children ? d3.max(d.children, maxLength) : 0)
+}
+
+function setBrLength(d, y0, k) {
+  d.radius = (y0 += d.data.length) * k
+  if (d.children)
+    d.children.forEach(function (d) {
+      setBrLength(d, y0, k)
+    })
+}
+
 export default function Tree(props) {
   const context = useContext(AppContext)
   const { treeData, setOpen, setNode } = context
 
   useEffect(() => {
-    console.log('parsing data')
     var data = parseNewick(treeData)
     var leafNodes = CountLeafNodes(data)
     var width = 500
-    const cluster = d3.cluster().size([leafNodes * 20, width])
+    const cluster = d3
+      .cluster()
+      .size([leafNodes * 20, width])
+      .separation((a, b) => 1)
 
     const root = d3
       .hierarchy(data, d => d.branchset)
@@ -34,7 +48,7 @@ export default function Tree(props) {
       )
 
     cluster(root)
-    setRadius(root, (root.data.length = 0), width / maxLength(root))
+    setBrLength(root, (root.data.length = 0), width / maxLength(root))
 
     d3.selectAll('#tree > *').remove()
     d3.select('#show-length input').on('change', changed)
@@ -107,10 +121,6 @@ export default function Tree(props) {
         setNode(d)
       })
 
-    function maxLength(d) {
-      return d.data.length + (d.children ? d3.max(d.children, maxLength) : 0)
-    }
-
     function linkVariable(d) {
       // console.log(d)
       return linkStep(d.source.x, d.source.radius, d.target.x, d.target.radius)
@@ -129,14 +139,6 @@ export default function Tree(props) {
 
     function linkStep(sx, sy, tx, ty) {
       return 'M' + sy + ' ' + sx + 'V' + tx + 'H' + ty
-    }
-
-    function setRadius(d, y0, k) {
-      d.radius = (y0 += d.data.length) * k
-      if (d.children)
-        d.children.forEach(function (d) {
-          setRadius(d, y0, k)
-        })
     }
 
     function mouseovered(active) {
