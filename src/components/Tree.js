@@ -4,7 +4,7 @@ import { parseNewick } from './Utils'
 
 import AppContext from '../container/Store'
 
-function CountLeafNodes(tree) {
+export function CountLeafNodes(tree) {
   if (tree.branchset) {
     return tree.branchset
       .map(child => {
@@ -175,9 +175,6 @@ export default function Tree(props) {
 
   return (
     <div style={{ 'margin-left': 20 }}>
-      {/* <label id="show-length">
-        <input type="checkbox" /> Show branch length
-      </label> */}
       <svg id="tree"> </svg>
     </div>
   )
