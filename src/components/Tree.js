@@ -4,7 +4,7 @@ import { parseNewick } from './Utils'
 
 import AppContext from '../container/Store'
 
-export function CountLeafNodes(tree) {
+function CountLeafNodes(tree) {
   if (tree.branchset) {
     return tree.branchset
       .map(child => {
@@ -26,19 +26,32 @@ function setBrLength(d, y0, k) {
     })
 }
 
+function getChildLoc(root, storechFn) {
+  var data = []
+  root.leaves().forEach(d => {
+    var child_data = {}
+    child_data.name = d.data.name
+    child_data.x = d.x
+    child_data.y = d.y
+    data.push(child_data)
+  })
+  storechFn(data)
+}
+
 export default function Tree(props) {
   const context = useContext(AppContext)
-  const { treeData, setOpen, setNode } = context
+  const { treeData, setTreeHeight, setOpen, setNode, setChildLoc } = context
 
   useEffect(() => {
     var data = parseNewick(treeData)
     var leafNodes = CountLeafNodes(data)
-    var width = 500
+    setTreeHeight(leafNodes * 20)
+    var width = window.innerWidth / 2 - 240
     const cluster = d3
       .cluster()
       .size([leafNodes * 20, width])
       .separation((a, b) => 1)
-
+    console.log(leafNodes)
     const root = d3
       .hierarchy(data, d => d.branchset)
       .sum(d => (d.branchset ? 0 : 1))
@@ -55,7 +68,8 @@ export default function Tree(props) {
 
     const svg = d3
       .select('#tree')
-      .attr('viewBox', [-10, -10, 1000, leafNodes * 20 + 10])
+      .attr('width', width + 210) //210 is the legth of biggest name --> needs to be genrallized
+      .attr('height', leafNodes * 20)
       .attr('font-family', 'sans-serif')
       .attr('font-size', 10)
 
@@ -155,13 +169,15 @@ export default function Tree(props) {
       circle.transition(t).style('opacity', this.checked ? 0 : 1)
       link.transition(t).attr('d', this.checked ? linkVariable : linkConstant)
     }
-  }, [setNode, setOpen, treeData])
+
+    getChildLoc(root, setChildLoc)
+  }, [setNode, setOpen, treeData, setChildLoc, setTreeHeight])
 
   return (
-    <div>
-      <label id="show-length">
+    <div style={{ 'margin-left': 20 }}>
+      {/* <label id="show-length">
         <input type="checkbox" /> Show branch length
-      </label>
+      </label> */}
       <svg id="tree"> </svg>
     </div>
   )

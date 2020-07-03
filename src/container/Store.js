@@ -9,6 +9,8 @@ class AppProvider extends Component {
     node: null,
     treeData: treeData,
     isOpenData: false,
+    childLoc: [],
+    heigtoftree: 0,
   }
   setOpen = todo => {
     this.setState({
@@ -34,10 +36,35 @@ class AppProvider extends Component {
     })
   }
 
+  setChildLoc = data => {
+    this.setState({
+      childLoc: data,
+    })
+  }
+  setTreeHeight = data => {
+    this.setState({
+      heigtoftree: data,
+    })
+  }
+
   render() {
     const { children } = this.props
-    const { isOpen, node, treeData, isOpenData } = this.state
-    const { setOpen, setNode, setTreeData, setOpenData } = this
+    const {
+      isOpen,
+      node,
+      treeData,
+      isOpenData,
+      childLoc,
+      heigtoftree,
+    } = this.state
+    const {
+      setOpen,
+      setNode,
+      setTreeData,
+      setOpenData,
+      setChildLoc,
+      setTreeHeight,
+    } = this
 
     return (
       <AppContext.Provider
@@ -46,10 +73,14 @@ class AppProvider extends Component {
           node,
           treeData,
           isOpenData,
+          childLoc,
+          heigtoftree,
           setOpen,
           setNode,
           setTreeData,
           setOpenData,
+          setChildLoc,
+          setTreeHeight,
         }}
       >
         {children}
