@@ -77,7 +77,7 @@ function ViewerScreen(props) {
             <Box width="50%">
               <Tree />
             </Box>
-            <Box width="50%" style={{ 'overflow-x': 'scroll' }}>
+            <Box width="50%" style={{ overflowX: 'scroll' }}>
               <MetaData />
             </Box>
           </div>

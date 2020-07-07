@@ -196,7 +196,7 @@ export default function Tree(props) {
   }, [setNode, setOpen, treeData, setChildLoc, setTreeHeight])
 
   return (
-    <div style={{ 'margin-left': 20 }}>
+    <div style={{ marginLeft: 20 }}>
       <svg id="tree"> </svg>
     </div>
   )
