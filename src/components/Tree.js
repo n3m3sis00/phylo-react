@@ -4,6 +4,7 @@ import { parseNewick } from './Utils'
 
 import AppContext from '../container/Store'
 
+// count how many leaf nodes are in the tree
 export function CountLeafNodes(tree) {
   if (tree.branchset) {
     return tree.branchset
@@ -12,6 +13,24 @@ export function CountLeafNodes(tree) {
       })
       .reduce((a, b) => a + b)
   } else return 1
+}
+
+// calculate a map of node-name to (X,Y) coordinate on the drawing
+export function XYPosMap(tree, map = {}) {
+  const {
+    children,
+    x,
+    y,
+    data: { name },
+  } = tree
+  if (children) {
+    children.forEach(child => {
+      XYPosMap(child, map)
+    })
+  } else if (name) {
+    map[name] = { x, y }
+  }
+  return map
 }
 
 function maxLength(d) {
@@ -51,7 +70,7 @@ export default function Tree(props) {
       .cluster()
       .size([leafNodes * 20, width])
       .separation((a, b) => 1)
-    console.log(leafNodes)
+    console.log('leafNodes', leafNodes)
     const root = d3
       .hierarchy(data, d => d.branchset)
       .sum(d => (d.branchset ? 0 : 1))
@@ -61,6 +80,9 @@ export default function Tree(props) {
       )
 
     cluster(root)
+    console.log('after cluster', root)
+    console.log(XYPosMap(root))
+
     setBrLength(root, (root.data.length = 0), width / maxLength(root))
 
     d3.selectAll('#tree > *').remove()
