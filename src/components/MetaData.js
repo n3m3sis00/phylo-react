@@ -9,7 +9,7 @@ export default function MetaData(props) {
 
   useEffect(() => {
     d3.selectAll('#metadata > *').remove()
-    var width = 1000 //100 is the width of meta data
+    var width = 10000 //100 is the width of meta data
     const svg = d3
       .select('#metadata')
       .attr('width', width)

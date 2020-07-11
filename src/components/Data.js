@@ -42,6 +42,9 @@ const useStyles = makeStyles(theme => ({
     height: 28,
     margin: 4,
   },
+  textbox: {
+    marginBottom: 10,
+  },
 }))
 
 function a11yProps(index) {
@@ -69,7 +72,7 @@ function Data(props) {
   const [ufiles, setuFiles] = React.useState(null)
   const [ufilesNames, setuFilesNames] = React.useState(null)
 
-  const [tempfasta, settempfasta] = React.useState(0)
+  const [tempfasta, settempfasta] = React.useState('')
   const [temptreeData, settemptreeData] = React.useState(treeData)
 
   const handleChange = (event, newValue) => {
@@ -157,11 +160,12 @@ function Data(props) {
               onChange={event => {
                 settemptreeData(event.target.value)
               }}
+              className={classes.textbox}
             />
 
             <TextField
               id="outlined-multiline-static"
-              label="Paste a Fasta"
+              label="Paste a Sequence"
               multiline
               cols={20}
               rows={8}
@@ -171,6 +175,7 @@ function Data(props) {
               onChange={event => {
                 settempfasta(event.target.value)
               }}
+              className={classes.textbox}
             />
             <Button
               variant="contained"

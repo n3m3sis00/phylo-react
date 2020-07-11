@@ -68,7 +68,11 @@ export function parseFasteSeq(text) {
   text.split('\n').forEach(line => {
     if (line[0] !== '#') {
       var t = line.split(' ')
-      seq.set(t[0], t.slice(-1)[0])
+      if (seq.get(t[0])) {
+        seq.set(t[0], seq.get(t[0]) + t.slice(-1)[0])
+      } else {
+        seq.set(t[0], t.slice(-1)[0])
+      }
     }
   })
   return seq
