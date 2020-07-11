@@ -5,11 +5,11 @@ import AppContext from '../container/Store'
 
 export default function MetaData(props) {
   const context = useContext(AppContext)
-  const { childLoc, heigtoftree } = context
+  const { childLoc, seq, heigtoftree } = context
 
   useEffect(() => {
     d3.selectAll('#metadata > *').remove()
-    var width = 10000 //10000 is the width of meta data
+    var width = 1000 //100 is the width of meta data
     const svg = d3
       .select('#metadata')
       .attr('width', width)
@@ -19,33 +19,14 @@ export default function MetaData(props) {
 
     svg
       .append('g')
-      .selectAll('circle')
+      .selectAll('text')
       .data(childLoc)
-      .join('circle')
-      .attr('cx', d => 10)
-      .attr('cy', d => d.x)
-      .attr('fill', d => '#ff0000')
-      .attr('r', 3)
-
-    svg
-      .append('g')
-      .selectAll('circle')
-      .data(childLoc)
-      .join('circle')
-      .attr('cx', d => 100)
-      .attr('cy', d => d.x)
-      .attr('fill', d => '#0000ff')
-      .attr('r', 3)
-
-    svg
-      .append('g')
-      .attr('fill', 'none')
-      .attr('stroke', '#00ff00')
-      .selectAll('path')
-      .data(childLoc)
-      .join('path')
-      .attr('d', d => 'M' + 10 + ' ' + d.x + 'H' + 10000)
-  }, [childLoc, heigtoftree])
+      .join('text')
+      .style('font-family', 'monospace')
+      .attr('x', d => 10)
+      .attr('y', d => d.x + 4)
+      .text(d => (seq !== '' ? seq.get(d.name) : ''))
+  }, [childLoc, heigtoftree, seq])
 
   return <svg id="metadata"></svg>
 }

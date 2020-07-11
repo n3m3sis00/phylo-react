@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { treeData } from '../resources/life.js'
+import { temptree, temptreeSeq } from '../resources/life.js'
+import { parseFasteSeq } from '../components/Utils'
 
 const AppContext = React.createContext()
 
@@ -7,10 +8,11 @@ class AppProvider extends Component {
   state = {
     isOpen: false,
     node: null,
-    treeData: treeData,
+    treeData: temptree,
     isOpenData: false,
     childLoc: [],
     heigtoftree: 0,
+    seq: parseFasteSeq(temptreeSeq),
   }
   setOpen = todo => {
     this.setState({
@@ -47,6 +49,12 @@ class AppProvider extends Component {
     })
   }
 
+  setSeq = data => {
+    this.setState({
+      seq: data,
+    })
+  }
+
   render() {
     const { children } = this.props
     const {
@@ -56,6 +64,7 @@ class AppProvider extends Component {
       isOpenData,
       childLoc,
       heigtoftree,
+      seq,
     } = this.state
     const {
       setOpen,
@@ -64,6 +73,7 @@ class AppProvider extends Component {
       setOpenData,
       setChildLoc,
       setTreeHeight,
+      setSeq,
     } = this
 
     return (
@@ -74,6 +84,7 @@ class AppProvider extends Component {
           treeData,
           isOpenData,
           childLoc,
+          seq,
           heigtoftree,
           setOpen,
           setNode,
@@ -81,6 +92,7 @@ class AppProvider extends Component {
           setOpenData,
           setChildLoc,
           setTreeHeight,
+          setSeq,
         }}
       >
         {children}

@@ -62,3 +62,14 @@ export async function* makeTextFileLineIterator(fileURL) {
     yield chunk.substr(startIndex)
   }
 }
+
+export function parseFasteSeq(text) {
+  let seq = new Map()
+  text.split('\n').forEach(line => {
+    if (line[0] !== '#') {
+      var t = line.split(' ')
+      seq.set(t[0], t.slice(-1)[0])
+    }
+  })
+  return seq
+}

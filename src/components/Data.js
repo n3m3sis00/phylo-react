@@ -12,7 +12,7 @@ import InputBase from '@material-ui/core/InputBase'
 import Divider from '@material-ui/core/Divider'
 import AppContext from '../container/Store'
 import TabularView from './TabularView'
-import { makeTextFileLineIterator } from './Utils'
+import { makeTextFileLineIterator, parseFasteSeq } from './Utils'
 
 const useStyles = makeStyles(theme => ({
   side_div: {
@@ -61,13 +61,16 @@ async function run(fileURL) {
 
 function Data(props) {
   const context = useContext(AppContext)
-  const { treeData, isOpenData, setOpenData, setTreeData } = context
+  const { treeData, isOpenData, setOpenData, setTreeData, setSeq } = context
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
   const [api, setapi] = React.useState('http://localhost:8000')
   const [files, setFiles] = React.useState(null)
   const [ufiles, setuFiles] = React.useState(null)
   const [ufilesNames, setuFilesNames] = React.useState(null)
+
+  const [tempfasta, settempfasta] = React.useState(0)
+  const [temptreeData, settemptreeData] = React.useState(treeData)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -111,6 +114,11 @@ function Data(props) {
     reader.readAsText(ufiles[idx])
   }
 
+  const tempFastaFn = async () => {
+    setTreeData(temptreeData)
+    setSeq(parseFasteSeq(tempfasta))
+  }
+
   return (
     <React.Fragment key={'bottom'}>
       <Drawer
@@ -145,11 +153,34 @@ function Data(props) {
               rows={8}
               fullWidth
               variant="outlined"
-              value={treeData}
+              value={temptreeData}
               onChange={event => {
-                setTreeData(event.target.value)
+                settemptreeData(event.target.value)
               }}
             />
+
+            <TextField
+              id="outlined-multiline-static"
+              label="Paste a Fasta"
+              multiline
+              cols={20}
+              rows={8}
+              fullWidth
+              variant="outlined"
+              value={tempfasta}
+              onChange={event => {
+                settempfasta(event.target.value)
+              }}
+            />
+            <Button
+              variant="contained"
+              fullWidth
+              color="primary"
+              component="span"
+              onClick={tempFastaFn}
+            >
+              Render
+            </Button>
           </div>
 
           <div
