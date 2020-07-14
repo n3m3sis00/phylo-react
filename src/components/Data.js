@@ -118,8 +118,8 @@ function Data(props) {
   }
 
   const tempFastaFn = async () => {
-    setTreeData(temptreeData)
     setSeq(parseFasteSeq(tempfasta))
+    setTreeData(temptreeData)
   }
 
   return (

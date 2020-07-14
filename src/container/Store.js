@@ -12,6 +12,7 @@ class AppProvider extends Component {
     isOpenData: false,
     childLoc: [],
     heigtoftree: 0,
+    drawBB: false,
     seq: parseFasteSeq(temptreeSeq),
   }
   setOpen = todo => {
@@ -55,6 +56,12 @@ class AppProvider extends Component {
     })
   }
 
+  setdrawBB = data => {
+    this.setState({
+      drawBB: data,
+    })
+  }
+
   render() {
     const { children } = this.props
     const {
@@ -65,6 +72,7 @@ class AppProvider extends Component {
       childLoc,
       heigtoftree,
       seq,
+      drawBB,
     } = this.state
     const {
       setOpen,
@@ -74,6 +82,7 @@ class AppProvider extends Component {
       setChildLoc,
       setTreeHeight,
       setSeq,
+      setdrawBB,
     } = this
 
     return (
@@ -85,6 +94,7 @@ class AppProvider extends Component {
           isOpenData,
           childLoc,
           seq,
+          drawBB,
           heigtoftree,
           setOpen,
           setNode,
@@ -93,6 +103,7 @@ class AppProvider extends Component {
           setChildLoc,
           setTreeHeight,
           setSeq,
+          setdrawBB,
         }}
       >
         {children}

@@ -6,9 +6,10 @@ import Box from '@material-ui/core/Box'
 import Tree from '../components/Tree'
 import Sidebar from '../components/Sidebar'
 import Data from '../components/Data'
-import MetaData from '../components/MetaData'
+// import MetaData from '../components/MetaData'
 import TreeToolbar from '../components/TreeToolbar'
 import { AppProvider } from './Store'
+import ColoredMSA from '../components/ColoredMSA'
 
 const useStyles = makeStyles(therme => ({
   tree_div: {
@@ -34,7 +35,7 @@ function ViewerScreen(props) {
               <Tree />
             </Box>
             <Box width="50%" style={{ overflowX: 'scroll' }}>
-              <MetaData />
+              <ColoredMSA />
             </Box>
           </div>
         </Grid>

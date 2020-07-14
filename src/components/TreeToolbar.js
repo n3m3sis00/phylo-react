@@ -3,11 +3,12 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import StorageIcon from '@material-ui/icons/Storage'
+import Switch from '@material-ui/core/Switch'
 
 import AppContext from '../container/Store'
 
 export default function TreeToolbar() {
-  const { setOpenData } = useContext(AppContext)
+  const { setOpenData, setdrawBB, drawBB } = useContext(AppContext)
 
   return (
     <AppBar position="static">
@@ -18,6 +19,12 @@ export default function TreeToolbar() {
         <label id="show-length">
           <input type="checkbox" /> Show branch length
         </label>
+        <Switch
+          checked={drawBB}
+          onChange={() => setdrawBB(!drawBB)}
+          name="checkedA"
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+        />
       </Toolbar>
     </AppBar>
   )
