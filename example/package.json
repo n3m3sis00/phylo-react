@@ -1,12 +1,17 @@
 {
-  "name": "phylo-react",
+  "name": "tree_of_life_reactjs",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.10.2",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@material-ui/styles": "^4.10.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "d3": "^5.16.0",
+    "gh-pages": "^3.1.0",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -14,23 +19,12 @@
     "uuid": "^8.1.0"
   },
   "scripts": {
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook",
-    "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-react"
-    ]
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.10.5",
-    "@babel/preset-react": "^7.0.0",
-    "@storybook/react": "^5.3.19",
-    "babel-loader": "^8.1.0"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
