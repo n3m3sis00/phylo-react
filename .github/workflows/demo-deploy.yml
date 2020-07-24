@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build-and-deploy:
@@ -14,8 +17,10 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
-          cd example && yarn
-          cd example && yarn build
+          ls
+          pwd
+          cd ./example && yarn
+          cd ./example && yarn build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.7

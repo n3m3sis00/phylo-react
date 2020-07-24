@@ -4,4 +4,4 @@ sudo: false
 script:
 - yarn eslint src
 - yarn prettier --check src
-# - yarn test
+- yarn test
