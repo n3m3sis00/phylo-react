@@ -64,14 +64,22 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-
-
-### Prerequisites
-
-
+A walkthrogh on how to use phylo-react
 ### Installation
+* For Use
+    ```bash
+    npm install phylo-react #OR
+    yarn add phylo-react
+    ```
 
+* For Developement
+    ```bash
+    git clone https://github.com/n3m3sis00/phylo-react
+    cd phylo-react
+    yarn storybook #for running storybook development server
+    ```
+### Example
+* Adding tree component in your project.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -105,7 +113,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- CONTACT -->
 ## Contact
 
-Shreya Srivastava - [@n3m3sis00](github.com/n3m3sis00) - ssrivastava@bt.iitr.ac.in
+Shreya Srivastava - [@n3m3sis00](github.com/n3m3sis00) - ssrivastava@bt.iitr.ac.in <br />
 Colin Diesh - [@cmdcolin](github.com/cmdcolin) - 
 
 Project Link: [https://github.com/n3m3sis00/tree](https://github.com/n3m3sis00/tree)
