@@ -19,7 +19,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook",
     "build-storybook": "build-storybook -s public",
-    "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files",
+    "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files"
   },
   "babel": {
     "presets": [
