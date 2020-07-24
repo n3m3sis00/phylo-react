@@ -12,6 +12,7 @@
 # production
 /build
 /dist
+build-storybook.log
 
 # misc
 .DS_Store

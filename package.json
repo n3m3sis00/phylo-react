@@ -18,7 +18,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook",
-    "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files"
+    "build-storybook": "build-storybook -s public",
+    "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files",
   },
   "babel": {
     "presets": [
@@ -30,7 +31,8 @@
     "@babel/core": "^7.10.5",
     "@babel/preset-react": "^7.0.0",
     "@storybook/react": "^5.3.19",
-    "babel-loader": "^8.1.0"
+    "babel-loader": "^8.1.0",
+    "chromatic": "^5.0.0"
   },
   "eslintConfig": {
     "extends": "react-app"
