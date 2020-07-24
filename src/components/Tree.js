@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React, {useEffect } from 'react'
+import PropTypes from "prop-types";
 import * as d3 from 'd3'
 import { parseNewick } from './Utils'
-
-import AppContext from '../container/Store'
 
 export function CountLeafNodes(tree) {
   if (tree.branchset) {
@@ -26,26 +25,25 @@ function setBrLength(d, y0, k) {
     })
 }
 
-function getChildLoc(root, storechFn) {
-  var data = []
-  root.leaves().forEach(d => {
-    var child_data = {}
-    child_data.name = d.data.name
-    child_data.x = d.x
-    child_data.y = d.y
-    data.push(child_data)
-  })
-  storechFn(data)
-}
+// function getChildLoc(root, storechFn) {
+//   var data = []
+//   root.leaves().forEach(d => {
+//     var child_data = {}
+//     child_data.name = d.data.name
+//     child_data.x = d.x
+//     child_data.y = d.y
+//     data.push(child_data)
+//   })
+//   storechFn(data)
+// }
 
 export default function Tree(props) {
-  const context = useContext(AppContext)
-  const { treeData, setTreeHeight, setOpen, setNode, setChildLoc } = context
+  const { data } = props
 
   useEffect(() => {
-    var data = parseNewick(treeData)
-    var leafNodes = CountLeafNodes(data)
-    setTreeHeight(leafNodes * 20)
+    var data_ = parseNewick(data)
+    var leafNodes = CountLeafNodes(data_)
+    // setTreeHeight(leafNodes * 20)
     var width = window.innerWidth / 2 - 240
     const cluster = d3
       .cluster()
@@ -53,7 +51,7 @@ export default function Tree(props) {
       .separation((a, b) => 1)
     console.log(leafNodes)
     const root = d3
-      .hierarchy(data, d => d.branchset)
+      .hierarchy(data_, d => d.branchset)
       .sum(d => (d.branchset ? 0 : 1))
       .sort(
         (a, b) =>
@@ -131,8 +129,8 @@ export default function Tree(props) {
       .on('mouseover', mouseovered(true))
       .on('mouseout', mouseovered(false))
       .on('click', d => {
-        setOpen(true)
-        setNode(d)
+        // setOpen(true)
+        // setNode(d)
       })
 
     function linkVariable(d) {
@@ -170,8 +168,8 @@ export default function Tree(props) {
       link.transition(t).attr('d', this.checked ? linkVariable : linkConstant)
     }
 
-    getChildLoc(root, setChildLoc)
-  }, [setNode, setOpen, treeData, setChildLoc, setTreeHeight])
+    // getChildLoc(root, setChildLoc)
+  }, [data])
 
   return (
     <div style={{ marginLeft: 20 }}>
@@ -179,3 +177,12 @@ export default function Tree(props) {
     </div>
   )
 }
+
+
+Tree.propTypes = {
+  data: PropTypes.string
+};
+
+Tree.defaultProps = {
+  data: ""
+};
