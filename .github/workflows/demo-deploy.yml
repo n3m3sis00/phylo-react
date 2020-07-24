@@ -17,10 +17,9 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
-          ls
-          pwd
-          cd ./example && yarn
-          cd ./example && yarn build
+          cd example
+          yarn
+          yarn build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.7

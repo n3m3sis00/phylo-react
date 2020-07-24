@@ -1,5 +1,5 @@
-import React, {useEffect } from 'react'
-import PropTypes from "prop-types";
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import * as d3 from 'd3'
 import { parseNewick } from './Utils'
 
@@ -43,7 +43,7 @@ function prepareConfig(root, treeheight, storechFn) {
 }
 
 export default function Tree(props) {
-  const { data, clickName, getConfig, ChangebranchLengthID} = props
+  const { data, clickName, getConfig, ChangebranchLengthID } = props
   console.log(ChangebranchLengthID)
 
   useEffect(() => {
@@ -181,17 +181,16 @@ export default function Tree(props) {
   )
 }
 
-
 Tree.propTypes = {
   data: PropTypes.string,
   clickName: PropTypes.func,
   getChildLoc: PropTypes.func,
-  ChangebranchLengthID : PropTypes.string
-};
+  ChangebranchLengthID: PropTypes.string,
+}
 
 Tree.defaultProps = {
-  data: "",
+  data: '',
   clickName: null,
   getChildLoc: null,
-  ChangebranchLengthID: "notpossible"
-};
+  ChangebranchLengthID: 'notpossible',
+}
