@@ -1,0 +1,71 @@
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import * as d3 from 'd3'
+import { colorScheme, parseFasteSeq } from './Utils'
+
+export function calcWidth(stri) {
+  return stri.length * 16 + 10
+}
+
+export default function MSA(props) {
+  const { dataToShow, data, heigtoftree, bgColor } = props
+
+  useEffect(() => {
+    let seqMap = parseFasteSeq(data)
+    d3.selectAll('#metadata > *').remove()
+    const svg = d3
+      .select('#metadata')
+      .attr('width', 1000) //childLoc.length > 0 ? calcWidth(seq.get(childLoc[0].name)) : 0
+      .attr('height', heigtoftree) //leafNode from tree.js
+      .attr('font-family', 'sans-serif')
+      .attr('font-size', 10)
+
+    dataToShow.forEach(d => {
+      var x = d.x
+      let stri = seqMap.get(d.name) ? seqMap.get(d.name) : ''
+      for (var i = 0; i < stri.length; i++) {
+        if (bgColor) {
+          svg
+            .append('rect')
+            .attr('x', 10 + i * 16)
+            .attr('y', x - 10)
+            .attr('width', 16)
+            .attr('height', 20)
+            .style('fill', colorScheme.maeditor[stri[i]])
+
+          svg
+            .append('text')
+            .style('font-family', 'monospace')
+            .attr('x', 10 + i * 16 + 8 - 3)
+            .attr('y', x + 4)
+            .style('fill', 'white')
+            .text(stri[i])
+        } else {
+          svg
+            .append('text')
+            .style('font-family', 'monospace')
+            .attr('x', 10 + i * 16 + 8 - 3)
+            .attr('y', x + 4)
+            .style('fill', colorScheme.maeditor[stri[i]])
+            .text(stri[i])
+        }
+      }
+    })
+  }, [dataToShow, heigtoftree, data, bgColor])
+
+  return <svg id="metadata"></svg>
+}
+
+MSA.propTypes = {
+  data: PropTypes.string,
+  dataToShow: PropTypes.array,
+  heigtoftree: PropTypes.number,
+  bgColor: PropTypes.bool,
+}
+
+MSA.defaultProps = {
+  data: '',
+  dataToShow: null,
+  heigtoftree: null,
+  bgColor: false,
+}
