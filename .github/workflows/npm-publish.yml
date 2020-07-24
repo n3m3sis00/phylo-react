@@ -1,7 +1,10 @@
 name: Node.js Package
 
-on: push
-
+on:
+  push:
+    branches: [ publish ]
+  pull_request:
+    branches: [ publish ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,9 +13,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: yarn 
-      # - run: yarn test #temporary fix
-
+      - run: yarn
+      - run: yarn test
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
@@ -22,7 +24,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: yarn 
+      - run: yarn
       - run: yarn publish:npm
       - run: npm publish
         env:
