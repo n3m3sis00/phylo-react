@@ -25,31 +25,35 @@ function setBrLength(d, y0, k) {
     })
 }
 
-// function getChildLoc(root, storechFn) {
-//   var data = []
-//   root.leaves().forEach(d => {
-//     var child_data = {}
-//     child_data.name = d.data.name
-//     child_data.x = d.x
-//     child_data.y = d.y
-//     data.push(child_data)
-//   })
-//   storechFn(data)
-// }
+function prepareConfig(root, treeheight, storechFn) {
+  var data = {}
+
+  var leafdata = []
+  root.leaves().forEach(d => {
+    var child_data = {}
+    child_data.name = d.data.name
+    child_data.x = d.x
+    child_data.y = d.y
+    leafdata.push(child_data)
+  })
+  data['leafloc'] = leafdata
+  data['treeheight'] = treeheight
+
+  storechFn(data)
+}
 
 export default function Tree(props) {
-  const { data } = props
+  const { data, clickName, getConfig} = props
 
   useEffect(() => {
     var data_ = parseNewick(data)
     var leafNodes = CountLeafNodes(data_)
-    // setTreeHeight(leafNodes * 20)
     var width = window.innerWidth / 2 - 240
     const cluster = d3
       .cluster()
       .size([leafNodes * 20, width])
       .separation((a, b) => 1)
-    console.log(leafNodes)
+
     const root = d3
       .hierarchy(data_, d => d.branchset)
       .sum(d => (d.branchset ? 0 : 1))
@@ -129,12 +133,10 @@ export default function Tree(props) {
       .on('mouseover', mouseovered(true))
       .on('mouseout', mouseovered(false))
       .on('click', d => {
-        // setOpen(true)
-        // setNode(d)
+        clickName(d)
       })
 
     function linkVariable(d) {
-      // console.log(d)
       return linkStep(d.source.x, d.source.radius, d.target.x, d.target.radius)
     }
 
@@ -168,8 +170,8 @@ export default function Tree(props) {
       link.transition(t).attr('d', this.checked ? linkVariable : linkConstant)
     }
 
-    // getChildLoc(root, setChildLoc)
-  }, [data])
+    prepareConfig(root, leafNodes * 20, getConfig)
+  }, [data, clickName, getConfig])
 
   return (
     <div style={{ marginLeft: 20 }}>
@@ -180,9 +182,13 @@ export default function Tree(props) {
 
 
 Tree.propTypes = {
-  data: PropTypes.string
+  data: PropTypes.string,
+  clickName: PropTypes.func,
+  getChildLoc: PropTypes.func
 };
 
 Tree.defaultProps = {
-  data: ""
+  data: "",
+  clickName: null,
+  getChildLoc: null
 };
