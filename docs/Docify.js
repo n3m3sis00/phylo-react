@@ -47,7 +47,7 @@ function PropTable(props) {
 }
 
 export default function MSA(props) {
-    const { View, description, proptable, code} = props
+    const { name, View, description, proptable, code} = props
     return <div>
                 <h1>{name}</h1>
                 <Toolbar />
