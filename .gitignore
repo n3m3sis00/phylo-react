@@ -11,6 +11,7 @@
 
 # production
 /build
+/example/build
 /dist
 build-storybook.log
 
