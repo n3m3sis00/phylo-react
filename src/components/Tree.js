@@ -43,7 +43,8 @@ function prepareConfig(root, treeheight, storechFn) {
 }
 
 export default function Tree(props) {
-  const { data, clickName, getConfig} = props
+  const { data, clickName, getConfig, ChangebranchLengthID} = props
+  console.log(ChangebranchLengthID)
 
   useEffect(() => {
     var data_ = parseNewick(data)
@@ -66,7 +67,7 @@ export default function Tree(props) {
     setBrLength(root, (root.data.length = 0), width / maxLength(root))
 
     d3.selectAll('#tree > *').remove()
-    d3.select('#show-length input').on('change', changed)
+    d3.select('#' + ChangebranchLengthID).on('change', changed)
 
     const svg = d3
       .select('#tree')
@@ -171,7 +172,7 @@ export default function Tree(props) {
     }
 
     prepareConfig(root, leafNodes * 20, getConfig)
-  }, [data, clickName, getConfig])
+  }, [data, clickName, getConfig, ChangebranchLengthID])
 
   return (
     <div style={{ marginLeft: 20 }}>
@@ -184,11 +185,13 @@ export default function Tree(props) {
 Tree.propTypes = {
   data: PropTypes.string,
   clickName: PropTypes.func,
-  getChildLoc: PropTypes.func
+  getChildLoc: PropTypes.func,
+  ChangebranchLengthID : PropTypes.string
 };
 
 Tree.defaultProps = {
   data: "",
   clickName: null,
-  getChildLoc: null
+  getChildLoc: null,
+  ChangebranchLengthID: "notpossible"
 };
