@@ -2,9 +2,8 @@ name: Node.js Package
 
 on:
   push:
-    branches: [ publish ]
-  pull_request:
-    branches: [ publish ]
+    branches: [publish]
+
 jobs:
   build:
     runs-on: ubuntu-latest
