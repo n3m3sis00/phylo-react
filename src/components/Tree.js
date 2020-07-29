@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
-import parseNewick from '../newick'
+import parseNewick from './newick'
 
 export function CountLeafNodes(tree) {
   if (tree.branchset) {
