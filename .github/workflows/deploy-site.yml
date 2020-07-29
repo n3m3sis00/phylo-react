@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   build-and-deploy:
@@ -17,6 +14,10 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
+          mkdir docs/docs
+          mkdir docs/demo
+          yarn
+          yarn build-storybook-docs
           cd example
           yarn
           yarn build
@@ -26,4 +27,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: example/build
+          FOLDER: docs

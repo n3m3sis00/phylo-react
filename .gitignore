@@ -14,6 +14,8 @@
 /example/build
 /dist
 build-storybook.log
+/docs/docs/*
+/docs/demo/*
 
 # misc
 .DS_Store
