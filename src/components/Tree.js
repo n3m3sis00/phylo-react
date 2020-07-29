@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
 import parseNewick from '../newick'
@@ -43,11 +43,12 @@ function prepareConfig(root, treeheight, storechFn) {
 
 export default function Tree(props) {
   const { data, clickName, getConfig, showBranchLength } = props
+  const ref = useRef()
 
+  const tree = parseNewick(data)
+  const width = window.innerWidth / 2 - 240
+  const leafNodes = CountLeafNodes(tree)
   useEffect(() => {
-    const tree = parseNewick(data)
-    const leafNodes = CountLeafNodes(tree)
-    const width = window.innerWidth / 2 - 240
     const cluster = d3
       .cluster()
       .size([leafNodes * 20, width])
@@ -63,27 +64,8 @@ export default function Tree(props) {
 
     cluster(root)
     setBrLength(root, (root.data.length = 0), width / maxLength(root))
-
-    d3.selectAll('#tree > *').remove()
-
-    //210 is the legth of biggest name --> needs to be genrallized
-    const svg = d3
-      .select('#tree')
-      .attr('width', width + 210)
-      .attr('height', leafNodes * 20)
-      .attr('font-family', 'sans-serif')
-      .attr('font-size', 10)
-
-    svg.append('style').text(`
-            .link--active {
-                stroke: #000 !important;
-                stroke-width: 1.5px;
-            }
-            .label--active {
-                font-weight: bold;
-            }
-            `)
-
+    ref.current.innerHTML = ''
+    const svg = d3.select(ref.current)
     const link = svg
       .append('g')
       .attr('fill', 'none')
@@ -152,12 +134,24 @@ export default function Tree(props) {
       }
     }
     prepareConfig(root, leafNodes * 20, getConfig)
-  }, [data, clickName, getConfig, showBranchLength])
+  }, [data, clickName, getConfig, showBranchLength, width, leafNodes, tree])
 
   return (
-    <div style={{ marginLeft: 20 }}>
-      <svg id="tree"> </svg>
-    </div>
+    <svg width={width + 210} height={leafNodes * 20}>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            .link--active {
+                stroke: #000 !important;
+                stroke-width: 1.5px;
+            }
+            .label--active {
+                font-weight: bold;
+            }`,
+        }}
+      />
+      <g ref={ref}></g>
+    </svg>
   )
 }
 
