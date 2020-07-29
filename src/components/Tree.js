@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
 import parseNewick from '../newick'
@@ -20,7 +20,7 @@ function maxLength(d) {
 }
 
 function setBrLength(d, y0, k) {
-  d.radius = (y0 += d.data.length) * k
+  d.radius = (y0 += Math.max(d.data.length, 0)) * k
   if (d.children) {
     d.children.forEach(function (d) {
       setBrLength(d, y0, k)
@@ -33,11 +33,7 @@ function prepareConfig(root, treeheight, storechFn) {
 
   const leafdata = []
   root.leaves().forEach(d => {
-    const child_data = {}
-    child_data.name = d.data.name
-    child_data.x = d.x
-    child_data.y = d.y
-    leafdata.push(child_data)
+    leafdata.push({ name: d.data.name, x: d.x, y: d.y })
   })
   data['leafloc'] = leafdata
   data['treeheight'] = treeheight
@@ -46,20 +42,20 @@ function prepareConfig(root, treeheight, storechFn) {
 }
 
 export default function Tree(props) {
-  const { data, clickName, getConfig, ChangebranchLengthID } = props
-  console.log(ChangebranchLengthID)
+  const { data, clickName, getConfig, showBranchLength } = props
+  const ref = useRef()
 
+  const tree = parseNewick(data)
+  const width = window.innerWidth / 2 - 240
+  const leafNodes = CountLeafNodes(tree)
   useEffect(() => {
-    const data_ = parseNewick(data)
-    const leafNodes = CountLeafNodes(data_)
-    const width = window.innerWidth / 2 - 240
     const cluster = d3
       .cluster()
       .size([leafNodes * 20, width])
       .separation((a, b) => 1)
 
     const root = d3
-      .hierarchy(data_, d => d.branchset)
+      .hierarchy(tree, d => d.branchset)
       .sum(d => (d.branchset ? 0 : 1))
       .sort(
         (a, b) =>
@@ -68,37 +64,18 @@ export default function Tree(props) {
 
     cluster(root)
     setBrLength(root, (root.data.length = 0), width / maxLength(root))
-
-    d3.selectAll('#tree > *').remove()
-    d3.select(`#${ChangebranchLengthID}`).on('change', changed)
-
-    const svg = d3
-      .select('#tree')
-      .attr('width', width + 210) //210 is the legth of biggest name --> needs to be genrallized
-      .attr('height', leafNodes * 20)
-      .attr('font-family', 'sans-serif')
-      .attr('font-size', 10)
-
-    svg.append('style').text(`
-            .link--active {
-                stroke: #000 !important;
-                stroke-width: 1.5px;
-            }
-            .label--active {
-                font-weight: bold;
-            }
-            `)
-
-    const link = svg
+    ref.current.innerHTML = ''
+    const svg = d3.select(ref.current)
+    svg
       .append('g')
       .attr('fill', 'none')
       .attr('stroke', '#000')
       .selectAll('path')
       .data(root.links())
       .join('path')
-      .attr('d', linkConstant)
+      .attr('d', showBranchLength ? linkVariable : linkConstant)
 
-    const linkExtension = svg
+    svg
       .append('g')
       .attr('fill', 'none')
       .attr('stroke', '#000')
@@ -114,18 +91,10 @@ export default function Tree(props) {
       .each(function (d) {
         d.target.linkExtensionNode = this
       })
-      .attr('d', linkExtensionConstant)
-
-    const circle = svg
-      .append('g')
-      .selectAll('circle')
-      .data(root.descendants())
-      .join('circle')
-      .attr('cx', d => d.y)
-      .attr('cy', d => d.x)
-      .attr('fill', d => (d.children ? '#555' : '#999'))
-      .attr('r', 3)
-
+      .attr(
+        'd',
+        showBranchLength ? linkExtensionVariable : linkExtensionConstant,
+      )
     svg
       .append('g')
       .selectAll('text')
@@ -164,23 +133,25 @@ export default function Tree(props) {
         d3.select(this).classed('label--active', active)
       }
     }
-
-    function changed() {
-      const t = d3.transition().duration(750)
-      linkExtension
-        .transition(t)
-        .attr('d', this.checked ? linkExtensionVariable : linkExtensionConstant)
-      circle.transition(t).style('opacity', this.checked ? 0 : 1)
-      link.transition(t).attr('d', this.checked ? linkVariable : linkConstant)
-    }
-
     prepareConfig(root, leafNodes * 20, getConfig)
-  }, [data, clickName, getConfig, ChangebranchLengthID])
+  }, [data, clickName, getConfig, showBranchLength, width, leafNodes, tree])
 
   return (
-    <div style={{ marginLeft: 20 }}>
-      <svg id="tree"> </svg>
-    </div>
+    <svg width={width + 210} height={leafNodes * 20}>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            .link--active {
+                stroke: #000 !important;
+                stroke-width: 1.5px;
+            }
+            .label--active {
+                font-weight: bold;
+            }`,
+        }}
+      />
+      <g ref={ref}></g>
+    </svg>
   )
 }
 
