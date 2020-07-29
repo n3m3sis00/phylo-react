@@ -9,11 +9,16 @@ const treeOfLife = `(((((((((((((((((((Escherichia_coli_EDL933:0.00000,Escherich
 export default { title: 'Tree' }
 
 export const TreeOfLifeExample = () => {
-  const [value, setValue] = useState(false)
+  const [value, setValue] = useState(true)
   return (
     <div>
       <label for="branchlen">Show branch length</label>
-      <input type="checkbox" id="branchlen" onChange={() => setValue(!value)} />
+      <input
+        type="checkbox"
+        id="branchlen"
+        checked={value}
+        onChange={() => setValue(!value)}
+      />
       <Tree
         data={treeOfLife}
         clickName={d => {
@@ -33,7 +38,12 @@ export const ToggleBranchLength = () => {
   return (
     <div>
       <label for="branchlen">Show branch length</label>
-      <input type="checkbox" id="branchlen" onChange={() => setValue(!value)} />
+      <input
+        checked={value}
+        type="checkbox"
+        id="branchlen"
+        onChange={() => setValue(!value)}
+      />
       <Tree
         data={treedata}
         clickName={d => {

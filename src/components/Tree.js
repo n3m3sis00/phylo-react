@@ -33,11 +33,7 @@ function prepareConfig(root, treeheight, storechFn) {
 
   const leafdata = []
   root.leaves().forEach(d => {
-    const child_data = {}
-    child_data.name = d.data.name
-    child_data.x = d.x
-    child_data.y = d.y
-    leafdata.push(child_data)
+    leafdata.push({ name: d.data.name, x: d.x, y: d.y })
   })
   data['leafloc'] = leafdata
   data['treeheight'] = treeheight
@@ -49,8 +45,8 @@ export default function Tree(props) {
   const { data, clickName, getConfig, showBranchLength } = props
 
   useEffect(() => {
-    const data_ = parseNewick(data)
-    const leafNodes = CountLeafNodes(data_)
+    const tree = parseNewick(data)
+    const leafNodes = CountLeafNodes(tree)
     const width = window.innerWidth / 2 - 240
     const cluster = d3
       .cluster()
@@ -58,7 +54,7 @@ export default function Tree(props) {
       .separation((a, b) => 1)
 
     const root = d3
-      .hierarchy(data_, d => d.branchset)
+      .hierarchy(tree, d => d.branchset)
       .sum(d => (d.branchset ? 0 : 1))
       .sort(
         (a, b) =>
@@ -70,9 +66,10 @@ export default function Tree(props) {
 
     d3.selectAll('#tree > *').remove()
 
+    //210 is the legth of biggest name --> needs to be genrallized
     const svg = d3
       .select('#tree')
-      .attr('width', width + 210) //210 is the legth of biggest name --> needs to be genrallized
+      .attr('width', width + 210)
       .attr('height', leafNodes * 20)
       .attr('font-family', 'sans-serif')
       .attr('font-size', 10)
@@ -94,9 +91,9 @@ export default function Tree(props) {
       .selectAll('path')
       .data(root.links())
       .join('path')
-      .attr('d', linkConstant)
+      .attr('d', showBranchLength ? linkVariable : linkConstant)
 
-    const linkExtension = svg
+    svg
       .append('g')
       .attr('fill', 'none')
       .attr('stroke', '#000')
@@ -112,18 +109,10 @@ export default function Tree(props) {
       .each(function (d) {
         d.target.linkExtensionNode = this
       })
-      .attr('d', linkExtensionConstant)
-
-    const circle = svg
-      .append('g')
-      .selectAll('circle')
-      .data(root.descendants())
-      .join('circle')
-      .attr('cx', d => d.y)
-      .attr('cy', d => d.x)
-      .attr('fill', d => (d.children ? '#555' : '#999'))
-      .attr('r', 3)
-
+      .attr(
+        'd',
+        showBranchLength ? linkExtensionVariable : linkExtensionConstant,
+      )
     svg
       .append('g')
       .selectAll('text')
@@ -162,17 +151,6 @@ export default function Tree(props) {
         d3.select(this).classed('label--active', active)
       }
     }
-
-    const t = d3.transition().duration(750)
-    linkExtension
-      .transition(t)
-      .attr(
-        'd',
-        showBranchLength ? linkExtensionVariable : linkExtensionConstant,
-      )
-    circle.transition(t).style('opacity', showBranchLength ? 0 : 1)
-    link.transition(t).attr('d', showBranchLength ? linkVariable : linkConstant)
-
     prepareConfig(root, leafNodes * 20, getConfig)
   }, [data, clickName, getConfig, showBranchLength])
 
