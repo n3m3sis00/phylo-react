@@ -20,7 +20,7 @@ function maxLength(d) {
 }
 
 function setBrLength(d, y0, k) {
-  d.radius = (y0 += d.data.length) * k
+  d.radius = (y0 += Math.max(d.data.length, 0)) * k
   if (d.children) {
     d.children.forEach(function (d) {
       setBrLength(d, y0, k)
@@ -66,7 +66,7 @@ export default function Tree(props) {
     setBrLength(root, (root.data.length = 0), width / maxLength(root))
     ref.current.innerHTML = ''
     const svg = d3.select(ref.current)
-    const link = svg
+    svg
       .append('g')
       .attr('fill', 'none')
       .attr('stroke', '#000')
