@@ -1,6 +1,6 @@
 import React from 'react'
 import Docify from './Docify'
-import Tree from '../src/components/Tree'
+import Tree from '../components/Tree'
 
 export default { title: 'Phylo-React overview' }
 

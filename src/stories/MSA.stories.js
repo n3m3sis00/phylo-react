@@ -1,5 +1,5 @@
 import React from 'react'
-import MSA from '../src/components/MSA'
+import MSA from '../components/MSA'
 
 const temptree = [
   {
