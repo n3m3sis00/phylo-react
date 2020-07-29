@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
-import { colorScheme, parseFasteSeq } from './Utils'
+import { colorScheme, parseFastaSeq } from './Utils'
 
 export function calcWidth(stri) {
   return stri.length * 16 + 10
@@ -11,7 +11,7 @@ export default function MSA(props) {
   const { dataToShow, data, heigtoftree, bgColor } = props
 
   useEffect(() => {
-    let seqMap = parseFasteSeq(data)
+    const seqMap = parseFastaSeq(data)
     d3.selectAll('#metadata > *').remove()
     const svg = d3
       .select('#metadata')
@@ -21,9 +21,9 @@ export default function MSA(props) {
       .attr('font-size', 10)
 
     dataToShow.forEach(d => {
-      var x = d.x
-      let stri = seqMap.get(d.name) ? seqMap.get(d.name) : ''
-      for (var i = 0; i < stri.length; i++) {
+      const x = d.x
+      const stri = seqMap.get(d.name) ? seqMap.get(d.name) : ''
+      for (let i = 0; i < stri.length; i++) {
         if (bgColor) {
           svg
             .append('rect')

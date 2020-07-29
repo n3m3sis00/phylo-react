@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
-import { parseNewick } from './Utils'
+import parseNewick from '../newick'
 
 export function CountLeafNodes(tree) {
   if (tree.branchset) {
@@ -10,7 +10,9 @@ export function CountLeafNodes(tree) {
         return CountLeafNodes(child)
       })
       .reduce((a, b) => a + b)
-  } else return 1
+  } else {
+    return 1
+  }
 }
 
 function maxLength(d) {
@@ -19,18 +21,19 @@ function maxLength(d) {
 
 function setBrLength(d, y0, k) {
   d.radius = (y0 += d.data.length) * k
-  if (d.children)
+  if (d.children) {
     d.children.forEach(function (d) {
       setBrLength(d, y0, k)
     })
+  }
 }
 
 function prepareConfig(root, treeheight, storechFn) {
-  var data = {}
+  const data = {}
 
-  var leafdata = []
+  const leafdata = []
   root.leaves().forEach(d => {
-    var child_data = {}
+    const child_data = {}
     child_data.name = d.data.name
     child_data.x = d.x
     child_data.y = d.y
@@ -47,9 +50,9 @@ export default function Tree(props) {
   console.log(ChangebranchLengthID)
 
   useEffect(() => {
-    var data_ = parseNewick(data)
-    var leafNodes = CountLeafNodes(data_)
-    var width = window.innerWidth / 2 - 240
+    const data_ = parseNewick(data)
+    const leafNodes = CountLeafNodes(data_)
+    const width = window.innerWidth / 2 - 240
     const cluster = d3
       .cluster()
       .size([leafNodes * 20, width])
@@ -67,7 +70,7 @@ export default function Tree(props) {
     setBrLength(root, (root.data.length = 0), width / maxLength(root))
 
     d3.selectAll('#tree > *').remove()
-    d3.select('#' + ChangebranchLengthID).on('change', changed)
+    d3.select(`#${ChangebranchLengthID}`).on('change', changed)
 
     const svg = d3
       .select('#tree')
@@ -86,7 +89,7 @@ export default function Tree(props) {
             }
             `)
 
-    var link = svg
+    const link = svg
       .append('g')
       .attr('fill', 'none')
       .attr('stroke', '#000')
@@ -95,7 +98,7 @@ export default function Tree(props) {
       .join('path')
       .attr('d', linkConstant)
 
-    var linkExtension = svg
+    const linkExtension = svg
       .append('g')
       .attr('fill', 'none')
       .attr('stroke', '#000')
@@ -113,7 +116,7 @@ export default function Tree(props) {
       })
       .attr('d', linkExtensionConstant)
 
-    var circle = svg
+    const circle = svg
       .append('g')
       .selectAll('circle')
       .data(root.descendants())
@@ -153,7 +156,7 @@ export default function Tree(props) {
     }
 
     function linkStep(sx, sy, tx, ty) {
-      return 'M' + sy + ' ' + sx + 'V' + tx + 'H' + ty
+      return `M${sy} ${sx}V${tx}H${ty}`
     }
 
     function mouseovered(active) {
@@ -163,7 +166,7 @@ export default function Tree(props) {
     }
 
     function changed() {
-      var t = d3.transition().duration(750)
+      const t = d3.transition().duration(750)
       linkExtension
         .transition(t)
         .attr('d', this.checked ? linkExtensionVariable : linkExtensionConstant)

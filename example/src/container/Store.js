@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { temptree, temptreeSeq } from '../resources/life.js'
-import { parseFasteSeq } from '../components/Utils'
+import { parseFastaSeq } from '../components/Utils'
 
 const AppContext = React.createContext()
 
@@ -13,7 +13,7 @@ class AppProvider extends Component {
     childLoc: [],
     heigtoftree: 0,
     drawBB: false,
-    seq: parseFasteSeq(temptreeSeq),
+    seq: parseFastaSeq(temptreeSeq),
   }
   setOpen = todo => {
     this.setState({
