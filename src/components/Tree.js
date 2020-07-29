@@ -46,8 +46,7 @@ function prepareConfig(root, treeheight, storechFn) {
 }
 
 export default function Tree(props) {
-  const { data, clickName, getConfig, ChangebranchLengthID } = props
-  console.log(ChangebranchLengthID)
+  const { data, clickName, getConfig, showBranchLength } = props
 
   useEffect(() => {
     const data_ = parseNewick(data)
@@ -70,7 +69,6 @@ export default function Tree(props) {
     setBrLength(root, (root.data.length = 0), width / maxLength(root))
 
     d3.selectAll('#tree > *').remove()
-    d3.select(`#${ChangebranchLengthID}`).on('change', changed)
 
     const svg = d3
       .select('#tree')
@@ -165,17 +163,18 @@ export default function Tree(props) {
       }
     }
 
-    function changed() {
-      const t = d3.transition().duration(750)
-      linkExtension
-        .transition(t)
-        .attr('d', this.checked ? linkExtensionVariable : linkExtensionConstant)
-      circle.transition(t).style('opacity', this.checked ? 0 : 1)
-      link.transition(t).attr('d', this.checked ? linkVariable : linkConstant)
-    }
+    const t = d3.transition().duration(750)
+    linkExtension
+      .transition(t)
+      .attr(
+        'd',
+        showBranchLength ? linkExtensionVariable : linkExtensionConstant,
+      )
+    circle.transition(t).style('opacity', showBranchLength ? 0 : 1)
+    link.transition(t).attr('d', showBranchLength ? linkVariable : linkConstant)
 
     prepareConfig(root, leafNodes * 20, getConfig)
-  }, [data, clickName, getConfig, ChangebranchLengthID])
+  }, [data, clickName, getConfig, showBranchLength])
 
   return (
     <div style={{ marginLeft: 20 }}>
