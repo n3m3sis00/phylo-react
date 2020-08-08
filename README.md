@@ -5,8 +5,6 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -30,54 +28,55 @@
   </p>
 </p>
 
-
-
 <!-- TABLE OF CONTENTS -->
+
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Installation](#installation)
-  * [Example](#example)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
-
-
+- [About the Project](#about-the-project)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Example](#example)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://n3m3sis00.github.io/tree)
 
-
-
 ### Built With
-* [React](https://reactjs.com)
-* [D3](https://d3js.com)
 
+- [React](https://reactjs.com)
+- [D3](https://d3js.com)
 
-
-<!-- GETTING STARTED -->
 ## Getting Started
-A walkthrogh on how to use phylo-react
-### Installation
-* For Use
-    ```bash
-    npm install phylo-react #OR
-    yarn add phylo-react
-    ```
 
-* For Developement
-    ```bash
-    git clone https://github.com/n3m3sis00/phylo-react
-    cd phylo-react
-    yarn storybook #for running storybook development server
-    ```
+A walkthrough on how to use phylo-react
+
+### Installation
+
+- For Use
+
+  ```bash
+  npm install phylo-react #OR
+  yarn add phylo-react
+  ```
+
+- For Developement
+  ```bash
+  git clone https://github.com/n3m3sis00/phylo-react
+  cd phylo-react
+  yarn storybook #for running storybook development server
+  ```
+
 ### Example
-* A quick tree example
+
+- A quick tree example
+
   ```js
   import React from 'react'
   import Tree from 'phylo-react/Tree'
@@ -89,15 +88,14 @@ A walkthrogh on how to use phylo-react
   }
   ```
 
-
 <!-- ROADMAP -->
+
 ## Roadmap
 
 See the [open issues](https://github.com/n3m3sis00/Phylo-react/issues) for a list of proposed features (and known issues).
 
-
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -108,24 +106,22 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
-Shreya Srivastava - [@n3m3sis00](github.com/n3m3sis00) - ssrivastava@bt.iitr.ac.in <br />
-Colin Diesh - [@cmdcolin](github.com/cmdcolin) -
+Shreya Srivastava - [@n3m3sis00](github.com/n3m3sis00) - ssrivastava@bt.iitr.ac.in
+Colin Diesh - [@cmdcolin](github.com/cmdcolin) - colin.diesh@gmail.com
 
 Project Link: [https://github.com/n3m3sis00/Phylo-react](https://github.com/n3m3sis00/Phylo-react)
 
-
-
 <!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
 
+## Acknowledgements
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [build-shield]: https://travis-ci.com/n3m3sis00/tree.svg?branch=master
 [build-url]: https://travis-ci.com/n3m3sis00/tree
 [contributors-shield]: https://img.shields.io/github/contributors/n3m3sis00/tree.svg
@@ -140,9 +136,8 @@ Project Link: [https://github.com/n3m3sis00/Phylo-react](https://github.com/n3m3
 [license-url]: https://github.com/n3m3sis00/Phylo-react/blob/master/LICENSE
 [product-screenshot]: docs/img/demo.png
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
