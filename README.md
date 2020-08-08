@@ -1,9 +1,5 @@
-[![Build Status][build-shield]](build-url)
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![NPM version](https://img.shields.io/npm/v/phylo-react.svg?style=flat-square)](https://npmjs.org/package/phylo-react)
+[![Build Status](https://travis-ci.com/n3m3sis00/phylo-react.svg?branch=master)](https://travis-ci.com/n3m3sis00/phylo-react)
 
 <!-- PROJECT LOGO -->
 <br />
