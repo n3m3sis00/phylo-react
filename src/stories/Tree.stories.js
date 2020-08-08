@@ -9,13 +9,15 @@ export const TreeOfLifeExample = () => {
   const [value, setValue] = useState(true)
   return (
     <div>
-      <label for="branchlen">Show branch length</label>
-      <input
-        type="checkbox"
-        id="branchlen"
-        checked={value}
-        onChange={() => setValue(!value)}
-      />
+      <div>
+        <label for="branchlen">Show branch length</label>
+        <input
+          type="checkbox"
+          id="branchlen"
+          checked={value}
+          onChange={() => setValue(!value)}
+        />
+      </div>
       <Tree
         data={treeOfLife}
         clickName={d => {
