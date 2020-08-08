@@ -3,15 +3,15 @@
   "version": "0.1.2",
   "private": false,
   "scripts": {
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "prebuild": "npm run clean",
+    "build": "babel src/components -d dist --copy-files",
+    "test": "jest",
     "storybook": "start-storybook",
     "lint": "eslint src",
     "prettier": "prettier src",
+    "clean": "rimraf dist",
     "build-storybook": "build-storybook -s public",
-    "build-storybook-docs": "build-storybook -c ./.storybook/docs -o ./docs/docs",
-    "publish:npm": "rm -rf dist && mkdir dist &&  babel src/components -d dist --copy-files"
+    "build-storybook-docs": "build-storybook -c ./.storybook/docs -o ./docs/docs"
   },
   "babel": {
     "presets": [
