@@ -42,7 +42,12 @@ function prepareConfig(root, treeheight, storechFn) {
 }
 
 export default function Tree(props) {
-  const { data, clickName, getConfig, showBranchLength } = props
+  const {
+    data,
+    clickName = () => {},
+    getConfig = () => {},
+    showBranchLength,
+  } = props
   const ref = useRef()
 
   const tree = parseNewick(data)
@@ -102,7 +107,7 @@ export default function Tree(props) {
       .join('text')
       .attr('x', d => d.y + 5)
       .attr('y', d => d.x + 4)
-      .text(d => d.data.name.replace(/_/g, ' '))
+      .text(d => (d.data.name || '').replace(/_/g, ' '))
       .on('mouseover', mouseovered(true))
       .on('mouseout', mouseovered(false))
       .on('click', d => {
@@ -125,6 +130,7 @@ export default function Tree(props) {
     }
 
     function linkStep(sx, sy, tx, ty) {
+      console.log({ sx, sy, tx, ty })
       return `M${sy} ${sx}V${tx}H${ty}`
     }
 
