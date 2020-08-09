@@ -47,16 +47,27 @@ export default function Tree(props) {
     clickName = () => {},
     getConfig = () => {},
     showBranchLength,
+    layout,
   } = props
   const ref = useRef()
 
   const tree = parseNewick(data)
-  const width = window.innerWidth / 2 - 240
   const leafNodes = CountLeafNodes(tree)
+  const outerRadius = leafNodes * 3.77 // this factor decide the arc angle
+  const innerRadius = outerRadius / 4 // this factor controls the size of arc
+
+  const svgHeight =
+    layout === 'circular' ? innerRadius * 2 + 360 : leafNodes * 20
+  const svgWidth =
+    layout === 'circular' ? innerRadius * 2 + 360 : leafNodes * 2 + 250 //360 for extra area to vis text
+
+  const height = layout === 'circular' ? outerRadius : leafNodes * 20 * 2
+  const width = layout === 'circular' ? innerRadius : leafNodes
+
   useEffect(() => {
     const cluster = d3
       .cluster()
-      .size([leafNodes * 20, width])
+      .size([height / 2, width])
       .separation((a, b) => 1)
 
     const root = d3
@@ -68,9 +79,20 @@ export default function Tree(props) {
       )
 
     cluster(root)
-    setBrLength(root, (root.data.length = 0), width / maxLength(root))
+    setBrLength(root, (root.data.length = 0), innerRadius / maxLength(root))
     ref.current.innerHTML = ''
-    const svg = d3.select(ref.current)
+    const svg = d3
+      .select(ref.current)
+      .attr('font-family', 'sans-serif')
+      .attr('font-size', 10)
+
+    if (layout === 'circular') {
+      svg.attr(
+        'transform',
+        `translate(${innerRadius + 180},${innerRadius + 180})`,
+      )
+    }
+
     svg
       .append('g')
       .attr('fill', 'none')
@@ -100,19 +122,42 @@ export default function Tree(props) {
         'd',
         showBranchLength ? linkExtensionVariable : linkExtensionConstant,
       )
-    svg
-      .append('g')
-      .selectAll('text')
-      .data(root.leaves())
-      .join('text')
-      .attr('x', d => d.y + 5)
-      .attr('y', d => d.x + 4)
-      .text(d => (d.data.name || '').replace(/_/g, ' '))
-      .on('mouseover', mouseovered(true))
-      .on('mouseout', mouseovered(false))
-      .on('click', d => {
-        clickName(d)
-      })
+    if (layout === 'linear') {
+      svg
+        .append('g')
+        .selectAll('text')
+        .data(root.leaves())
+        .join('text')
+        .attr('x', d => d.y + 5)
+        .attr('y', d => d.x + 4)
+        .text(d => (d.data.name || '').replace(/_/g, ' '))
+        .on('mouseover', mouseovered(true))
+        .on('mouseout', mouseovered(false))
+        .on('click', d => {
+          clickName(d)
+        })
+    } else if (layout === 'circular') {
+      svg
+        .append('g')
+        .selectAll('text')
+        .data(root.leaves())
+        .join('text')
+        .attr('dy', '.31em')
+        .attr(
+          'transform',
+          d =>
+            `rotate(${d.x - 90}) translate(${innerRadius + 4},0)${
+              d.x < 180 ? '' : ' rotate(180)'
+            }`,
+        )
+        .attr('text-anchor', d => (d.x < 180 ? 'start' : 'end'))
+        .text(d => (d.data.name || '').replace(/_/g, ' '))
+        .on('mouseover', mouseovered(true))
+        .on('mouseout', mouseovered(false))
+        .on('click', d => {
+          clickName(d)
+        })
+    }
 
     function linkVariable(d) {
       return linkStep(d.source.x, d.source.radius, d.target.x, d.target.radius)
@@ -130,8 +175,36 @@ export default function Tree(props) {
     }
 
     function linkStep(sx, sy, tx, ty) {
-      console.log({ sx, sy, tx, ty })
-      return `M${sy} ${sx}V${tx}H${ty}`
+      if (layout === 'linear') {
+        console.log({ sx, sy, tx, ty })
+        return `M${sy} ${sx}V${tx}H${ty}`
+      } else if (layout === 'circular') {
+        const c0 = Math.cos((sx = ((sx - 90) / 180) * Math.PI))
+        const s0 = Math.sin(sx)
+        const c1 = Math.cos((tx = ((tx - 90) / 180) * Math.PI))
+        const s1 = Math.sin(tx)
+        return `M
+          ${sy * c0}
+          ,
+          ${sy * s0}
+          ${
+            tx === sx
+              ? ''
+              : `A
+              ${sy}
+              ,
+              ${sy}
+               0 0
+              ${tx > sx ? 1 : 0}
+              ${sy * c1}
+              ,
+              ${sy * s1}`
+          }
+          L
+          ${ty * c1}
+          ,
+          ${ty * s1}`
+      }
     }
 
     function mouseovered(active) {
@@ -140,10 +213,21 @@ export default function Tree(props) {
       }
     }
     prepareConfig(root, leafNodes * 20, getConfig)
-  }, [data, clickName, getConfig, showBranchLength, width, leafNodes, tree])
+  }, [
+    data,
+    clickName,
+    getConfig,
+    showBranchLength,
+    width,
+    leafNodes,
+    tree,
+    layout,
+    height,
+    innerRadius,
+  ])
 
   return (
-    <svg width={width + 210} height={leafNodes * 20}>
+    <svg width={svgWidth} height={svgHeight}>
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -166,6 +250,7 @@ Tree.propTypes = {
   clickName: PropTypes.func,
   getChildLoc: PropTypes.func,
   ChangebranchLengthID: PropTypes.string,
+  layout: PropTypes.string,
 }
 
 Tree.defaultProps = {
@@ -173,4 +258,5 @@ Tree.defaultProps = {
   clickName: null,
   getChildLoc: null,
   ChangebranchLengthID: 'notpossible',
+  layout: 'linear',
 }

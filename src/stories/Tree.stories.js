@@ -31,3 +31,31 @@ export const TreeOfLifeExample = () => {
     </div>
   )
 }
+
+export const TreeOfLifeExampleCircular = () => {
+  const [value, setValue] = useState(true)
+  return (
+    <div>
+      <div>
+        <label for="branchlen">Show branch length</label>
+        <input
+          type="checkbox"
+          id="branchlen"
+          checked={value}
+          onChange={() => setValue(!value)}
+        />
+      </div>
+      <Tree
+        data={treeOfLife}
+        clickName={d => {
+          console.log(d)
+        }}
+        getConfig={d => {
+          console.log(d)
+        }}
+        showBranchLength={value}
+        layout="circular"
+      />
+    </div>
+  )
+}
