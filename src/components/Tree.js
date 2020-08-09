@@ -183,27 +183,27 @@ export default function Tree(props) {
         const s0 = Math.sin(sx)
         const c1 = Math.cos((tx = ((tx - 90) / 180) * Math.PI))
         const s1 = Math.sin(tx)
-        return (
-          `M
+        return `M
           ${sy * c0}
           ,
           ${sy * s0}
-          ${(tx === sx
-            ? ''
-            : `A
+          ${
+            tx === sx
+              ? ''
+              : `A
               ${sy}
               ,
               ${sy}
                0 0
-              ${(tx > sx ? 1 : 0)}
+              ${tx > sx ? 1 : 0}
               ${sy * c1}
               ,
-              ${sy * s1}`)}
+              ${sy * s1}`
+          }
           L
           ${ty * c1}
           ,
           ${ty * s1}`
-        )
       }
     }
 
@@ -213,7 +213,18 @@ export default function Tree(props) {
       }
     }
     prepareConfig(root, leafNodes * 20, getConfig)
-  }, [data, clickName, getConfig, showBranchLength, width, leafNodes, tree, layout, height, innerRadius])
+  }, [
+    data,
+    clickName,
+    getConfig,
+    showBranchLength,
+    width,
+    leafNodes,
+    tree,
+    layout,
+    height,
+    innerRadius,
+  ])
 
   return (
     <svg width={svgWidth} height={svgHeight}>
