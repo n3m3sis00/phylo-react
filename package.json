@@ -10,6 +10,7 @@
     "lint": "eslint src",
     "prettier": "prettier src",
     "clean": "rimraf dist",
+    "prepare": "npm run build",
     "build-storybook": "build-storybook -s public",
     "build-storybook-docs": "build-storybook -c ./.storybook/docs -o ./docs/docs"
   },
