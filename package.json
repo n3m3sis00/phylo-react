@@ -12,7 +12,8 @@
     "clean": "rimraf dist",
     "prepare": "npm run build",
     "build-storybook": "build-storybook -s public",
-    "build-storybook-docs": "build-storybook -c ./.storybook/docs -o ./docs/docs"
+    "build-storybook-docs": "build-storybook -c ./.storybook/docs -o ./docs/docs",
+    "postversion": "git push --follow-tags"
   },
   "babel": {
     "presets": [
