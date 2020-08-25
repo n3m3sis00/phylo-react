@@ -19,7 +19,7 @@ function maxLength(d) {
 }
 
 function setBrLength(d, y0, k) {
-  d.radius = (y0 += d.data.length) * k
+  d.radius = (y0 += Math.max(d.data.length, 0)) * k
   if (d.children)
     d.children.forEach(function (d) {
       setBrLength(d, y0, k)
