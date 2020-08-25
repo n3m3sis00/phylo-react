@@ -1,6 +1,10 @@
 {
   "name": "phylo-react",
+<<<<<<< HEAD
   "version": "0.1.4",
+=======
+  "version": "0.1.5",
+>>>>>>> 6a3bcde3639413d76e298e999f388567d4d223d1
   "private": false,
   "scripts": {
     "prebuild": "npm run clean",
@@ -12,7 +16,8 @@
     "clean": "rimraf dist",
     "prepare": "npm run build",
     "build-storybook": "build-storybook -s public",
-    "build-storybook-docs": "build-storybook -c ./.storybook/docs -o ./docs/docs"
+    "build-storybook-docs": "build-storybook -c ./.storybook/docs -o ./docs/docs",
+    "postversion": "git push --follow-tags"
   },
   "babel": {
     "presets": [
