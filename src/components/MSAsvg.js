@@ -4,7 +4,8 @@ import * as d3 from 'd3'
 import { parseMSASeq, colorScheme } from './Utils'
 
 export function calcWidth(stri) {
-  return stri.length * 16 + 10
+  if (stri.length < 1000) return stri.length * 16 + 10
+  return stri.length * 6 + 12
 }
 
 export default function MSAsvg(props) {
@@ -15,13 +16,20 @@ export default function MSAsvg(props) {
     d3.selectAll('#metadata > *').remove()
     const svg = d3
       .select('#metadata')
-      .attr('width', 1000) //childLoc.length > 0 ? calcWidth(seq.get(childLoc[0].name)) : 0
+      .attr(
+        'width',
+        dataToShow.length > 0
+          ? calcWidth(seqMap.get(dataToShow[0].name))
+          : 1000,
+      ) //childLoc.length > 0 ? calcWidth(seq.get(childLoc[0].name)) : 0
       .attr('height', heightoftree) //leafNode from tree.js
       .attr('font-family', 'sans-serif')
       .attr('font-size', 10)
 
-    let strix = seqMap.get(dataToShow[0].name) ? seqMap.get(dataToShow[0].name) : ''
-    if (strix < 10000) {
+    let strix = seqMap.get(dataToShow[0].name)
+      ? seqMap.get(dataToShow[0].name)
+      : ''
+    if (strix.length > 1000) {
       dataToShow.forEach(d => {
         const stri = seqMap.get(d.name) ? seqMap.get(d.name) : ''
         const x = d.x
@@ -81,5 +89,5 @@ MSAsvg.defaultProps = {
   data: '',
   dataToShow: null,
   heightoftree: null,
-  bgColor: false,
+  bgColor: true,
 }
