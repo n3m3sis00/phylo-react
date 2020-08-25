@@ -29,7 +29,7 @@ export async function* makeTextFileLineIterator(fileURL) {
   }
 }
 
-export function parseFastaSeq(text) {
+export function parseMSASeq(text) {
   const seq = new Map()
   text.split('\n').forEach(line => {
     if (line[0] !== '#') {

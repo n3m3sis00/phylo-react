@@ -1,3 +1,4 @@
 import Tree from './Tree'
 import MSA from './MSA'
-export { Tree, MSA }
+import {parseMSASeq, colorScheme} from './Utils'
+export { Tree, MSA, parseMSASeq, colorScheme}

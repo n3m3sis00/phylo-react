@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
-import { colorScheme, parseFastaSeq } from './Utils'
+import { colorScheme, parseMSASeq } from './Utils'
 
 export function calcWidth(stri) {
   return stri.length * 16 + 10
@@ -11,7 +11,7 @@ export default function MSA(props) {
   const { dataToShow, data, heightoftree, bgColor } = props
 
   useEffect(() => {
-    const seqMap = parseFastaSeq(data)
+    const seqMap = parseMSASeq(data)
     d3.selectAll('#metadata > *').remove()
     const svg = d3
       .select('#metadata')
