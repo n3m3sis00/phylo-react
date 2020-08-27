@@ -13,7 +13,14 @@ class AppProvider extends Component {
     heigtoftree: 0,
     drawBB: false,
     seq: temptreeSeq,
+    showbranchlength: true,
   }
+  setShowBranchLength = todo =>{
+    this.setState({
+      showbranchlength : todo
+    })
+  }
+
   setOpen = todo => {
     this.setState({
       isOpen: todo,
@@ -71,6 +78,7 @@ class AppProvider extends Component {
       treeConfig,
       seq,
       drawBB,
+      showbranchlength,
     } = this.state
     const {
       setOpen,
@@ -80,6 +88,7 @@ class AppProvider extends Component {
       setTreeConfig,
       setSeq,
       setdrawBB,
+      setShowBranchLength,
     } = this
 
     return (
@@ -91,6 +100,7 @@ class AppProvider extends Component {
           isOpenData,
           treeConfig,
           seq,
+          showbranchlength,
           drawBB,
           setOpen,
           setNode,
@@ -99,6 +109,7 @@ class AppProvider extends Component {
           setTreeConfig,
           setSeq,
           setdrawBB,
+          setShowBranchLength
         }}
       >
         {children}
