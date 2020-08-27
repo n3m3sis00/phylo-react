@@ -4,7 +4,9 @@ import * as d3 from 'd3'
 import { parseMSASeq, colorScheme } from './Utils'
 
 export function calcWidth(stri) {
-  if (stri.length < 1000) {return stri.length * 16 + 10}
+  if (stri.length < 1000) {
+    return stri.length * 16 + 10
+  }
   return stri.length * 6 + 12
 }
 
