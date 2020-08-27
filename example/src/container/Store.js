@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { temptree, temptreeSeq } from '../resources/life.js'
-import { parseFastaSeq } from '../components/Utils'
 
 const AppContext = React.createContext()
 
@@ -10,11 +9,18 @@ class AppProvider extends Component {
     node: null,
     treeData: temptree,
     isOpenData: false,
-    childLoc: [],
+    treeConfig: null, //{treeheight : 240, leafloc : [{x : 10, y : 10, name: "dummy"}]}
     heigtoftree: 0,
     drawBB: false,
-    seq: parseFastaSeq(temptreeSeq),
+    seq: temptreeSeq,
+    showbranchlength: true,
   }
+  setShowBranchLength = todo =>{
+    this.setState({
+      showbranchlength : todo
+    })
+  }
+
   setOpen = todo => {
     this.setState({
       isOpen: todo,
@@ -39,9 +45,9 @@ class AppProvider extends Component {
     })
   }
 
-  setChildLoc = data => {
+  setTreeConfig = data => {
     this.setState({
-      childLoc: data,
+      treeConfig: data,
     })
   }
   setTreeHeight = data => {
@@ -69,20 +75,20 @@ class AppProvider extends Component {
       node,
       treeData,
       isOpenData,
-      childLoc,
-      heigtoftree,
+      treeConfig,
       seq,
       drawBB,
+      showbranchlength,
     } = this.state
     const {
       setOpen,
       setNode,
       setTreeData,
       setOpenData,
-      setChildLoc,
-      setTreeHeight,
+      setTreeConfig,
       setSeq,
       setdrawBB,
+      setShowBranchLength,
     } = this
 
     return (
@@ -92,18 +98,18 @@ class AppProvider extends Component {
           node,
           treeData,
           isOpenData,
-          childLoc,
+          treeConfig,
           seq,
+          showbranchlength,
           drawBB,
-          heigtoftree,
           setOpen,
           setNode,
           setTreeData,
           setOpenData,
-          setChildLoc,
-          setTreeHeight,
+          setTreeConfig,
           setSeq,
           setdrawBB,
+          setShowBranchLength
         }}
       >
         {children}

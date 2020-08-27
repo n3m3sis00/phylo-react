@@ -12,7 +12,7 @@ import InputBase from '@material-ui/core/InputBase'
 import Divider from '@material-ui/core/Divider'
 import AppContext from '../container/Store'
 import TabularView from './TabularView'
-import { makeTextFileLineIterator, parseFastaSeq } from './Utils'
+import { makeTextFileLineIterator } from './Utils'
 
 const useStyles = makeStyles(theme => ({
   side_div: {
@@ -118,7 +118,7 @@ function Data(props) {
   }
 
   const tempFastaFn = async () => {
-    setSeq(parseFastaSeq(tempfasta))
+    setSeq(tempfasta)
     setTreeData(temptreeData)
   }
 
