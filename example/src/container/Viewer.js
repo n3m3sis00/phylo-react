@@ -3,13 +3,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 
-import Tree from '../components/Tree'
+import TreeView from '../components/TreeView'
 import Sidebar from '../components/Sidebar'
 import Data from '../components/Data'
-// import MetaData from '../components/MetaData'
 import TreeToolbar from '../components/TreeToolbar'
 import { AppProvider } from './Store'
-import ColoredMSA from '../components/ColoredMSA'
+import MSAView from '../components/MSAView'
 
 const useStyles = makeStyles(therme => ({
   tree_div: {
@@ -31,11 +30,11 @@ function ViewerScreen(props) {
         <TreeToolbar />
         <Grid key={1} item>
           <div className={classes.tree_div}>
-            <Box width="50%">
-              <Tree />
+            <Box width="20%">
+              <TreeView />
             </Box>
-            <Box width="50%" style={{ overflowX: 'scroll' }}>
-              <ColoredMSA />
+            <Box width="80%" style={{ overflowX: 'scroll' }}>
+              <MSAView />
             </Box>
           </div>
         </Grid>

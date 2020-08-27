@@ -1,37 +1,3 @@
-export function parseNewick(a) {
-  for (
-    var e = [], r = {}, s = a.split(/\s*(;|\(|\)|,|:)\s*/), t = 0;
-    t < s.length;
-    t++
-  ) {
-    var n = s[t]
-    switch (n) {
-      case '(':
-        var c = {}
-        r.branchset = [c]
-        e.push(r)
-        r = c
-        break
-      case ',':
-        c = {}
-        e[e.length - 1].branchset.push(c)
-        r = c
-        break
-      case ')':
-        r = e.pop()
-        break
-      case ':':
-        break
-      default:
-        var h = s[t - 1]
-        ')' === h || '(' === h || ',' === h
-          ? (r.name = n)
-          : ':' === h && (r.length = parseFloat(n))
-    }
-  }
-  return r
-}
-
 export async function* makeTextFileLineIterator(fileURL) {
   const utf8Decoder = new TextDecoder('utf-8')
   const response = await fetch(fileURL)
@@ -61,19 +27,4 @@ export async function* makeTextFileLineIterator(fileURL) {
     // last line didn't end in a newline char
     yield chunk.substr(startIndex)
   }
-}
-
-export function parseFastaSeq(text) {
-  let seq = new Map()
-  text.split('\n').forEach(line => {
-    if (line[0] !== '#') {
-      var t = line.split(' ')
-      if (seq.get(t[0])) {
-        seq.set(t[0], seq.get(t[0]) + t.slice(-1)[0])
-      } else {
-        seq.set(t[0], t.slice(-1)[0])
-      }
-    }
-  })
-  return seq
 }

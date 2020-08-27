@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { temptree, temptreeSeq } from '../resources/life.js'
-import { parseFastaSeq } from '../components/Utils'
 
 const AppContext = React.createContext()
 
@@ -10,10 +9,10 @@ class AppProvider extends Component {
     node: null,
     treeData: temptree,
     isOpenData: false,
-    childLoc: [],
+    treeConfig: null, //{treeheight : 240, leafloc : [{x : 10, y : 10, name: "dummy"}]}
     heigtoftree: 0,
     drawBB: false,
-    seq: parseFastaSeq(temptreeSeq),
+    seq: temptreeSeq,
   }
   setOpen = todo => {
     this.setState({
@@ -39,9 +38,9 @@ class AppProvider extends Component {
     })
   }
 
-  setChildLoc = data => {
+  setTreeConfig = data => {
     this.setState({
-      childLoc: data,
+      treeConfig: data,
     })
   }
   setTreeHeight = data => {
@@ -69,8 +68,7 @@ class AppProvider extends Component {
       node,
       treeData,
       isOpenData,
-      childLoc,
-      heigtoftree,
+      treeConfig,
       seq,
       drawBB,
     } = this.state
@@ -79,8 +77,7 @@ class AppProvider extends Component {
       setNode,
       setTreeData,
       setOpenData,
-      setChildLoc,
-      setTreeHeight,
+      setTreeConfig,
       setSeq,
       setdrawBB,
     } = this
@@ -92,16 +89,14 @@ class AppProvider extends Component {
           node,
           treeData,
           isOpenData,
-          childLoc,
+          treeConfig,
           seq,
           drawBB,
-          heigtoftree,
           setOpen,
           setNode,
           setTreeData,
           setOpenData,
-          setChildLoc,
-          setTreeHeight,
+          setTreeConfig,
           setSeq,
           setdrawBB,
         }}
