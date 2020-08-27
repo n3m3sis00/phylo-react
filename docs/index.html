@@ -1,12 +1,10 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
   <head>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-      crossorigin="anonymous"
-    />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
 
     <style>
       .container {
@@ -16,13 +14,13 @@
         list-style: none;
       }
       .site-header {
-        background-color: rgba(0, 0, 0, 0.85);
+        background-color: rgba(0, 0, 0, .85);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
         backdrop-filter: saturate(180%) blur(20px);
       }
       .site-header a {
         color: #999;
-        transition: ease-in-out color 0.15s;
+        transition: ease-in-out color .15s;
       }
       .site-header a:hover {
         color: #fff;
@@ -39,9 +37,7 @@
         }
       }
 
-      .overflow-hidden {
-        overflow: hidden;
-      }
+      .overflow-hidden { overflow: hidden; }
 
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -61,72 +57,52 @@
   </head>
   <body>
     <nav class="site-header sticky-top py-1">
-      <div
-        class="container d-flex flex-column flex-md-row justify-content-between"
-      >
-        <a class="py-2 d-none d-md-inline-block" href="./demo">Demo</a>
-        <a class="py-2 d-none d-md-inline-block" href="./docs">Docs</a>
-        <a class="py-2 d-none d-md-inline-block" href="#">Gallary</a>
-      </div>
-    </nav>
+  <div class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2 d-none d-md-inline-block" href="./demo">Demo</a>
+    <a class="py-2 d-none d-md-inline-block" href="./docs">Docs</a>
+    <a class="py-2 d-none d-md-inline-block" href="#">Gallary</a>
+  </div>
+</nav>
 
-    <div
-      class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light"
-    >
-      <div class="col-md-5 p-lg-5 mx-auto my-5">
-        <h1 class="display-4 font-weight-normal">Phylo React</h1>
-        <a class="btn btn-outline-secondary" href="#">Get Started</a>
-      </div>
-      <div class="product-device shadow-sm d-none d-md-block"></div>
-      <div
-        class="product-device product-device-2 shadow-sm d-none d-md-block"
-      ></div>
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+  <div class="col-md-5 p-lg-5 mx-auto my-5">
+    <h1 class="display-4 font-weight-normal">Phylo React</h1>
+    <a class="btn btn-outline-secondary" href="#">Get Started</a>
+  </div>
+  <div class="product-device shadow-sm d-none d-md-block"></div>
+  <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+</div>
+
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+  <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-white overflow-hidden">
+    <div class="my-3 py-3">
+      <h2 class="display-5 text-center">Features</h2>
+      <ul>
+        <li>Tree View</li>
+        <li>MSA View</li>
+      </ul>
     </div>
-
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
-      <div
-        class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-white overflow-hidden"
-      >
-        <div class="my-3 py-3">
-          <h2 class="display-5 text-center">Features</h2>
-          <ul>
-            <li>Tree View</li>
-            <li>MSA View</li>
-          </ul>
-        </div>
-      </div>
-      <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 overflow-hidden">
-        <div class="my-3 p-3">
-          <h2 class="display-5 text-center">Releases</h2>
-          <ul>
-            <li>Tree View</li>
-            <li>MSA View</li>
-          </ul>
-        </div>
-      </div>
+  </div>
+  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 overflow-hidden">
+    <div class="my-3 p-3">
+      <h2 class="display-5 text-center">Releases</h2>
+      <ul>
+        <li>Tree View</li>
+        <li>MSA View</li>
+      </ul>
     </div>
+  </div>
+</div>
 
-    <footer class="container py-5">
-      <div class="row">
-        <div class="col-12 col-md">
-          <small class="d-block mb-3 text-muted">&copy; 2020-2021</small>
-        </div>
-      </div>
-    </footer>
-  </body>
-  <script
-    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-    crossorigin="anonymous"
-  ></script>
+<footer class="container py-5">
+  <div class="row">
+    <div class="col-12 col-md">
+      <small class="d-block mb-3 text-muted">&copy; 2020-2021</small>
+    </div>
+  </div>
+</footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </html>
