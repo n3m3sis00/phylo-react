@@ -1,10 +1,6 @@
 {
   "name": "phylo-react",
-<<<<<<< HEAD
-  "version": "0.1.4",
-=======
   "version": "0.1.5",
->>>>>>> 6a3bcde3639413d76e298e999f388567d4d223d1
   "private": false,
   "scripts": {
     "prebuild": "npm run clean",

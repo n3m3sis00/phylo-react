@@ -69,6 +69,8 @@ A walkthrough on how to use phylo-react
   yarn storybook #for running storybook development server
   ```
 
+For more in depth Guide visit [here](https://github.com/n3m3sis00/phylo-react/wiki/How-To-Contribute)
+
 ### Example
 
 - A quick tree example
@@ -111,12 +113,11 @@ Colin Diesh - [@cmdcolin](github.com/cmdcolin) - colin.diesh@gmail.com
 
 Project Link: [https://github.com/n3m3sis00/Phylo-react](https://github.com/n3m3sis00/Phylo-react)
 
-<!-- ACKNOWLEDGEMENTS -->
+## Reference
 
-## Acknowledgements
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+1.  [Tree of Life example by Ashish](https://bl.ocks.org/git-ashish/3aa81521f96e48198c80b4e2742bb6bc)
+    <!-- MARKDOWN LINKS & IMAGES -->
+    <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [build-shield]: https://travis-ci.com/n3m3sis00/tree.svg?branch=master
 [build-url]: https://travis-ci.com/n3m3sis00/tree
