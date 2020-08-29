@@ -13,7 +13,7 @@
   <p align="center">
     React component library for phylogenetic analysis!
     <br />
-    <a href="https://github.com/n3m3sis00/Phylo-react"><strong>Explore the docs »</strong></a>
+    <a href="https://n3m3sis00.github.io/phylo-react/docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://n3m3sis00.github.io/phylo-react/demo">View Demo</a>
@@ -42,7 +42,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://n3m3sis00.github.io/tree)
+[![Product Name Screen Shot][product-screenshot]](https://n3m3sis00.github.io/phylo-react)
 
 ### Built With
 
